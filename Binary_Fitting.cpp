@@ -341,17 +341,18 @@ double RelativeFluxes(xt::xarray<double> PSF_1, xt::xarray<int> coordinates_1, x
 int main() 
 {
 	//read in the image and model data, and the parameters we set earlier
-	xt::xarray<double> image_psf = xt::load_npy<double>("image_psf.npy");
+	xt::xarray<double> image_psf = xt::load_npy<double>("tempdata/image_psf.npy");
 
 	int array_length = 100;
 	xt::xarray<xt::xarray<double>> array_of_PSFs = xt::zeros<xt::xarray<double>>({array_length});
+//	xt::xarray<xt::xarray<double>> array_of_PSFs = xt::load_npy<double>("tempdata/array_of_PSFs.npy");
     	for (int i = 1; i <= array_length; ++i) {
-    		string filename = " PSFmodel_" + to_string(i) + ".npy";
+    		string filename = "tempdata/PSFmodel_" + to_string(i) + ".npy";
     		array_of_PSFs(i - 1) = xt::load_npy<double>(filename);
     	}
     	
-	auto coordinates = xt::load_npy<double>("coords.npy");
-	auto center_load = xt::load_npy<double>("center.npy");
+	auto coordinates = xt::load_npy<double>("tempdata/coords.npy");
+	auto center_load = xt::load_npy<double>("tempdata/center.npy");
 	xt::xarray<int> center = {(int) center_load(0,0), (int) center_load(1,1)};
     	
     	xt::xarray<int> primary_coordinates = {2,2};
@@ -462,14 +463,14 @@ int main()
     	xt::xarray<int> secondary_array = coordinates;
     	
     	//send the "outputs" as seperate files since they are different data types and we can read them all in to python for the calculation of angles and separation - it only takes a second :)
-    	xt::dump_npy("residual_error_array.npy", residual_error_array);
-    	xt::dump_npy("center_array.npy", center_array);
-    	xt::dump_npy("secondary_array.npy", secondary_array);
-	xt::dump_npy("best_primary_array.npy", best_primary_array);
-	xt::dump_npy("flux_primary_array.npy", flux_primary_array);
-	xt::dump_npy("best_secondary_array.npy", best_secondary_array);
-	xt::dump_npy("flux_secondary_array.npy", flux_secondary_array);
-	xt::dump_npy("flux_sum_array.npy", flux_sum_array);
+    	xt::dump_npy("tempdata/residual_error_array.npy", residual_error_array);
+    	xt::dump_npy("tempdata/center_array.npy", center_array);
+    	xt::dump_npy("tempdata/secondary_array.npy", secondary_array);
+	xt::dump_npy("tempdata/best_primary_array.npy", best_primary_array);
+	xt::dump_npy("tempdata/flux_primary_array.npy", flux_primary_array);
+	xt::dump_npy("tempdata/best_secondary_array.npy", best_secondary_array);
+	xt::dump_npy("tempdata/flux_secondary_array.npy", flux_secondary_array);
+	xt::dump_npy("tempdata/flux_sum_array.npy", flux_sum_array);
     	
 	return 0;
 }

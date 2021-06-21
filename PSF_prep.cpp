@@ -70,8 +70,8 @@ int main() {
 
 //read in the npy files to xtensor arrays
 
-	auto model_psf = xt::load_npy<double>("psf_model_data.npy");
-	auto image_psf = xt::load_npy<double>("image_psf.npy");
+	auto model_psf = xt::load_npy<double>("tempdata/psf_model_data.npy");
+	auto image_psf = xt::load_npy<double>("tempdata/image_psf.npy");
 
 	//bin the model array and get back the 100 binned variations
 	xt::xarray<xt::xarray<double>> array_of_PSFs = BinPSFModel(model_psf);
@@ -89,10 +89,18 @@ int main() {
 		}
 	}
 	//output image_psf and array_to_PSFs to npy files
-	xt::dump_npy("image_psf.npy", image_psf);
+	xt::dump_npy("tempdata/image_psf.npy", image_psf);
+//	cout << xt::adapt(array_of_PSFs.shape()) << endl;
+//	cout << xt::adapt(array_of_PSFs(0).shape()) << endl;
+
+//	cout << array_of_PSFs << endl; 
+//	//array_of_PSFs.reshape({100,-1});    
+//	xt::dump_npy("tempdata/array_of_PSFs.npy", array_of_PSFs);
+//	cout << "Output array of PSFs" << endl;    
+    
  	int length = 100;
     	for (int i = 1; i <= length; ++i) {
-    		string filename = " PSFmodel_" + to_string(i) + ".npy";
+    		string filename = "tempdata/PSFmodel_" + to_string(i) + ".npy";
     		xt::dump_npy(filename, array_of_PSFs(i - 1));
     	}
 

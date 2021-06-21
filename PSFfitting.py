@@ -40,6 +40,7 @@ instrument = image_header['INSTRUME'] + str(image_header['CAMERA'])
 filtername = image_header['FILTER']
 header_array = [telescope, instrument, filtername]
 
+print(header_array)
 #Create the output file
 #Initilaized with the file rootname, filter, and date of observsation
 out_file = image_header['ROOTNAME'] + '_output.txt'
@@ -59,8 +60,8 @@ image_psf = image_psf - bkgd
 
 #save the two psf arrays to files to be read into C++ 
 #np.savetxt('psf_model_data.csv', psf_model_data, delimiter = ',') 
-np.save('psf_model_data.npy', psf_model_data) 
-np.save('image_psf.npy', image_psf) 
+np.save('tempdata/psf_model_data.npy', psf_model_data) 
+np.save('tempdata/image_psf.npy', image_psf) 
 #np.savetxt('image_psf.csv', psf_image_data, delimiter = ',')
 
 #prepare additional parameters for binary fit calculations
@@ -84,8 +85,8 @@ for secondary in coords:
 coords = np.asarray(temp, dtype = '<f8')
 center_np = np.asarray(center, dtype = '<f8')
 #save coords and center to csv files to be used in binary fitting in C++
-np.save('coords.npy', coords)
-np.save('center.npy', center_np)
+np.save('tempdata/coords.npy', coords)
+np.save('tempdata/center.npy', center_np)
 
 #Run the binning program
 os.system('./PSF_prep')
@@ -94,11 +95,11 @@ os.system('./PSF_prep')
 os.system('./Single_Fitting')
 
 #Load the single fit results
-iteration_array = np.load('iteration_array.npy')
-PSF_number_array = np.load('PSF_number_array.npy')
-flux_array = np.load('flux_array.npy')
-minchi_value_array = np.load('minchi_value_array.npy')
-residual_error_array = np.load('residual_error_array.npy')
+iteration_array = np.load('tempdata/iteration_array.npy')
+PSF_number_array = np.load('tempdata/PSF_number_array.npy')
+flux_array = np.load('tempdata/flux_array.npy')
+minchi_value_array = np.load('tempdata/minchi_value_array.npy')
+residual_error_array = np.load('tempdata/residual_error_array.npy')
 
 #Write the results to the outfile
 out.write('Single Fit:\n')
@@ -109,20 +110,20 @@ for i in range(len(iteration_array)):
 	minchi = str(minchi_value_array[i])
 	residual_error = str(residual_error_array[i])
 	
-	out.write('Iteration: '+ iteration + ' PSF: '+ PSF + ' Flux: '+ flux + ' Min Chi: ' + minchi + ' Residual Error: ' + residual_error + '\n')
+	out.write('Iteration: '+ iteration + ' PSF: '+ PSF + ' Flux: '+ flux + ' Min Chi-Square: ' + minchi + ' Residual Error: ' + residual_error + '\n')
 
 #Run the binary fit program
 print('- - -')
 os.system('./Binary_Fitting')
 
-residual_error_array = np.load('residual_error_array.npy')
-center_array = np.load('center_array.npy')
-secondary_array = np.load('secondary_array.npy')
-best_primary_array = np.load('best_primary_array.npy')
-flux_primary_array = np.load('flux_primary_array.npy')
-best_secondary_array = np.load('best_secondary_array.npy')
-flux_secondary_array = np.load('flux_secondary_array.npy')
-flux_sum_array = np.load('flux_sum_array.npy')
+residual_error_array = np.load('tempdata/residual_error_array.npy')
+center_array = np.load('tempdata/center_array.npy')
+secondary_array = np.load('tempdata/secondary_array.npy')
+best_primary_array = np.load('tempdata/best_primary_array.npy')
+flux_primary_array = np.load('tempdata/flux_primary_array.npy')
+best_secondary_array = np.load('tempdata/best_secondary_array.npy')
+flux_secondary_array = np.load('tempdata/flux_secondary_array.npy')
+flux_sum_array = np.load('tempdata/flux_sum_array.npy')
 
 outputs = []
 for i in range(len(residual_error_array)):
@@ -143,11 +144,13 @@ PlateScaleY = cameras[instrument]['PlateScaleY']
 print('- - -\nBegin calculation of angles and separation')	
 orient=image_header['orientat']%360
 
-array_of_PSFs = [];
+#array_of_PSFs = np.load('tempdata/array_of_PSFs.npy')
+array_of_PSFs = []
 for i in range(100):
-	filename = " PSFmodel_" + str(i + 1) + ".npy"
+	filename = "tempdata/PSFmodel_" + str(i + 1) + ".npy"
 	array_of_PSFs.append(np.load(filename))
-array_of_PSFs = np.asarray(array_of_PSFs)    	
+array_of_PSFs = np.asarray(array_of_PSFs)
+print('Array of PSFs: ',array_of_PSFs.shape)
 
 bestprim=[]
 bestsec=[]
@@ -208,10 +211,13 @@ for output,mags in zip(outputs,magsout):
     tempout.append(output+mags)
 outputs=tempout
 
+
+
 out.write('\t---\nBinary Fit:')
 outputs.sort(key=lambda x: x[0])
+#print('Outputs: ',outputs)
 for itr,output in enumerate(outputs):
-    out.write('\n'+str(itr+1)+'   error:%.5f\n'
+    out.write('\n'+str(itr+1)+'  Residual error:%.5f\n'
         %output[0])
     out.write(' Primary: (%6.2f,%6.2f)  Secondary: (%6.2f,%6.2f)\n'
         %(output[1][1],output[1][0],output[2][1],output[2][0]))

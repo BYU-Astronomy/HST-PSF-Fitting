@@ -81,12 +81,13 @@ int main()
 {	
 	//read in image_psf
 	//read in array_of_PSFs
-	auto image_psf = xt::load_npy<double> ("image_psf.npy");
+	auto image_psf = xt::load_npy<double> ("tempdata/image_psf.npy");
 
 	int array_length = 100;
 	xt::xarray<xt::xarray<double>> array_of_PSFs = xt::zeros<xt::xarray<double>>({array_length});
+//	xt::xarray<xt::xarray<double>> array_of_PSFs = xt::load_npy<double>("tempdata/array_of_PSFs.npy");
     	for (int i = 1; i <= array_length; ++i) {
-    		string filename = " PSFmodel_" + to_string(i) + ".npy";
+    		string filename = "tempdata/PSFmodel_" + to_string(i) + ".npy";
     		array_of_PSFs(i - 1) = xt::load_npy<double>(filename);
     	}
 	
@@ -164,11 +165,11 @@ int main()
 	xt::xarray<double> residual_error_array = xt::adapt(residual_error_vector, {iteration});
 	
 	//write the single fit results to npy files
-	xt::dump_npy("iteration_array.npy", iteration_array);
-	xt::dump_npy("PSF_number_array.npy", PSF_number_array);
-	xt::dump_npy("flux_array.npy", flux_array);
-	xt::dump_npy("minchi_value_array.npy", minchi_value_array);
-	xt::dump_npy("residual_error_array.npy", residual_error_array);
+	xt::dump_npy("tempdata/iteration_array.npy", iteration_array);
+	xt::dump_npy("tempdata/PSF_number_array.npy", PSF_number_array);
+	xt::dump_npy("tempdata/flux_array.npy", flux_array);
+	xt::dump_npy("tempdata/minchi_value_array.npy", minchi_value_array);
+	xt::dump_npy("tempdata/residual_error_array.npy", residual_error_array);
 	
 	return 0;
 }
