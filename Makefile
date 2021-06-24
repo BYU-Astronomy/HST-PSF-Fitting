@@ -1,5 +1,5 @@
 INCLUDES = -I${CONDA_PREFIX}/include
-CXXFLAGS = -O3
+CXXFLAGS = -O3 -g
 XSIMDFLAGS = -mavx2 -ffast-math -DXTENSOR_USE_XSIMD
 
 .PHONY: clean conda-setup-build conda-setup-run

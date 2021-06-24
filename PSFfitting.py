@@ -36,7 +36,11 @@ image_header = psf_image[0].header
 psf_image.close()
 
 telescope = image_header['TELESCOP']
-instrument = image_header['INSTRUME'] + str(image_header['CAMERA'])
+print(image_header['INSTRUME'])
+if image_header['INSTRUME'] == 'WFC3':
+    instrument = image_header['INSTRUME']
+else:
+    instrument = image_header['INSTRUME'] + str(image_header['CAMERA'])
 filtername = image_header['FILTER']
 header_array = [telescope, instrument, filtername]
 
@@ -57,6 +61,7 @@ bkgd = cameras[instrument]['Background']
 center = [int(center.split()[1]), int(center.split()[0])]
 image_psf = psf_image_data[center[0]-3:center[0]+2, center[1]-3:center[1]+2]
 image_psf = image_psf - bkgd
+print('Image_psf:', image_psf)
 
 #save the two psf arrays to files to be read into C++ 
 #np.savetxt('psf_model_data.csv', psf_model_data, delimiter = ',') 

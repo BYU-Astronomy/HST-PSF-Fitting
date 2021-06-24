@@ -71,6 +71,8 @@ int main() {
 //read in the npy files to xtensor arrays
 
 	auto model_psf = xt::load_npy<double>("tempdata/psf_model_data.npy");
+//    cout << model_psf << endl;
+//    cout << model_psf.shape()[0] << "  " << model_psf.shape()[1] << endl;
 	auto image_psf = xt::load_npy<double>("tempdata/image_psf.npy");
 
 	//bin the model array and get back the 100 binned variations

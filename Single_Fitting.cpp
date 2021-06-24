@@ -17,6 +17,7 @@
 using namespace std;
 
 //Get the index of the model with the smallest chi-squared value
+
 int GetMinChiSquared(xt::xarray<xt::xarray<double>> array_of_PSFs, xt::xarray<double> image_psf, double flux, xt::xarray<double> weights)
 {
 	xt::xarray<double> chi_array = xt::zeros<xt::xarray<double>>({array_of_PSFs.shape()[0]});
@@ -27,6 +28,8 @@ int GetMinChiSquared(xt::xarray<xt::xarray<double>> array_of_PSFs, xt::xarray<do
 	for (int i = 0; i < array_of_PSFs.shape()[0]; ++i) {
 		xt::xarray<double> model_PSF = array_of_PSFs(i);
 		xt::xarray<double> model_fluxed = (xt::view(model_PSF, xt::range(cy - 2, cy + 3 ), xt::range(cx - 2, cx + 3))) * flux;
+		//cout << model_fluxed.reshape({5,5}) << endl;
+       // exit(1);
 		xt::xarray<double> chi_PSF = weights * (image_psf - model_fluxed);
 		chi_array(i) = xt::sum(chi_PSF * chi_PSF, xt::evaluation_strategy::immediate)(0);
 	}

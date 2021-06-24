@@ -1,0 +1,379 @@
+[INFO    ] Setting up logfile :  hst_14022_02_wfc3_ir_f140w_icsf02_trl.log
+[INFO    ] AstroDrizzle Version 3.2.0 (2020-12-07 15:16:12 -0800) started at: 12:32:20.327 (19/01/2021)
+[INFO    ] 
+[INFO    ] Version Information
+[INFO    ] --------------------
+[INFO    ] Python Version [GCC 7.3.0]
+[INFO    ] 3.6.12 |Anaconda, Inc.| (default, Sep  8 2020, 23:10:56) 
+[INFO    ] numpy Version -> 1.19.3 
+[INFO    ] astropy Version -> 4.1 
+[INFO    ] stwcs Version -> 1.6.0 
+[INFO    ] ==== Processing Step  Initialization  started at  12:32:20.328 (19/01/2021)
+[INFO    ] 
+[INFO    ] Executing serially
+[INFO    ] Setting up output name: hst_14022_02_wfc3_ir_f140w_icsf02_drz.fits
+[INFO    ] -Creating imageObject List as input for processing steps.
+[INFO    ] Reading in MDRIZSKY of 0.2968755102876075
+[INFO    ] Reading in MDRIZSKY of 0.0
+[INFO    ] Reading in MDRIZSKY of 0.7132057671388223
+[INFO    ] Reset bit values of 4096 to a value of 0 in hst_14022_02_wfc3_ir_f140w_icsf02iw_flt.fits[DQ,1]
+[INFO    ] Reset bit values of 4096 to a value of 0 in hst_14022_02_wfc3_ir_f140w_icsf02iz_flt.fits[DQ,1]
+[INFO    ] Reset bit values of 4096 to a value of 0 in hst_14022_02_wfc3_ir_f140w_icsf02j2_flt.fits[DQ,1]
+[INFO    ] -Creating output WCS.
+[INFO    ] Creating OUTPUT WCS from WCS object based on 
+[INFO    ] WCS Keywords
+[INFO    ] 
+[INFO    ] Number of WCS axes: 2
+[INFO    ] CTYPE : 'RA---TAN'  'DEC--TAN'  
+[INFO    ] CRVAL : 89.83134209477149  -14.082294272475092  
+[INFO    ] CRPIX : 595.0694598355645  600.027657667895  
+[INFO    ] CD1_1 CD1_2  : -3.562500079472858e-05  0.0  
+[INFO    ] CD2_1 CD2_2  : 0.0  3.562500079472858e-05  
+[INFO    ] NAXIS : 1191  1199
+[INFO    ] ********************************************************************************
+[INFO    ] *
+[INFO    ] *  Estimated memory usage:  up to 16 Mb.
+[INFO    ] *  Output image size:       1191 X 1199 pixels. 
+[INFO    ] *  Output image file:       ~ 16 Mb. 
+[INFO    ] *  Cores available:         1
+[INFO    ] *
+[INFO    ] ********************************************************************************
+[INFO    ] ==== Processing Step Initialization finished at 12:32:21.038 (19/01/2021)
+[INFO    ] USER INPUT PARAMETERS common to all Processing Steps:
+[INFO    ] 	build :	True
+[INFO    ] 	coeffs :	True
+[INFO    ] 	context :	True
+[INFO    ] 	crbit :	4096
+[INFO    ] 	group :	
+[INFO    ] 	in_memory :	False
+[INFO    ] 	input :	['hst_14022_02_wfc3_ir_f140w_icsf02iw_flt.fits', 'hst_14022_02_wfc3_ir_f140w_icsf02iz_flt.fits', 'hst_14022_02_wfc3_ir_f140w_icsf02j2_flt.fits']
+[INFO    ] 	mdriztab :	False
+[INFO    ] 	num_cores :	1
+[INFO    ] 	output :	hst_14022_02_wfc3_ir_f140w_icsf02_drz.fits
+[INFO    ] 	proc_unit :	native
+[INFO    ] 	resetbits :	4096
+[INFO    ] 	rules_file :	hst_14022_02_wfc3_ir_f140w_icsf02iw_header_hap.rules
+[INFO    ] 	runfile :	hst_14022_02_wfc3_ir_f140w_icsf02_trl.log
+[INFO    ] 	stepsize :	10
+[INFO    ] 	updatewcs :	False
+[INFO    ] 	wcskey :	
+[INFO    ] ==== Processing Step  Static Mask  started at  12:32:21.039 (19/01/2021)
+[INFO    ] 
+[INFO    ] USER INPUT PARAMETERS for Static Mask Step:
+[INFO    ] 	static :	True
+[INFO    ] 	static_sig :	4.0
+[INFO    ] Computing static mask:
+
+[INFO    ]   mode =  0.468602;   rms = 3.329464;   static_sig = 4.00
+[INFO    ] Computing static mask:
+
+[INFO    ]   mode =  1.065723;   rms = 3.318044;   static_sig = 4.00
+[INFO    ] Computing static mask:
+
+[INFO    ]   mode =  0.133813;   rms = 3.309771;   static_sig = 4.00
+[INFO    ] Saving static mask to disk: ./hst_14022_02_wfc3_ir_f140w_256x256_1_staticMask.fits
+[INFO    ] ==== Processing Step Static Mask finished at 12:32:21.064 (19/01/2021)
+[INFO    ] ==== Processing Step  Subtract Sky  started at  12:32:21.064 (19/01/2021)
+[INFO    ] 
+[INFO    ] USER INPUT PARAMETERS for Sky Subtraction Step:
+[INFO    ] 	sky_bits :	16
+[INFO    ] 	skyclip :	5
+[INFO    ] 	skyfile :	
+[INFO    ] 	skylower :	-100.0
+[INFO    ] 	skylsigma :	4.0
+[INFO    ] 	skymask_cat :	
+[INFO    ] 	skymethod :	match
+[INFO    ] 	skystat :	median
+[INFO    ] 	skysub :	True
+[INFO    ] 	skyupper :	None
+[INFO    ] 	skyuser :	
+[INFO    ] 	skyusigma :	4.0
+[INFO    ] 	skywidth :	0.1
+[INFO    ] 	use_static :	True
+[INFO    ] ***** skymatch started on 2021-01-19 12:32:21.266437
+[INFO    ]       Version 1.0.5
+[INFO    ] 
+[INFO    ] 'skymatch' task will apply computed sky differences to input image file(s).
+[INFO    ] 
+[INFO    ] NOTE: Computed sky values WILL NOT be subtracted from image data ('subtractsky'=False).
+[INFO    ] 'MDRIZSKY' header keyword will represent sky value *computed* from data.
+[INFO    ] 
+[INFO    ] -----  User specified keywords:  -----
+[INFO    ]        Sky Value Keyword:  'MDRIZSKY'
+[INFO    ]        Data Units Keyword: 'BUNIT'
+[INFO    ] 
+[INFO    ] 
+[INFO    ] -----  Input file list:  -----
+[INFO    ] 
+[INFO    ]    **  Input image: 'hst_14022_02_wfc3_ir_f140w_icsf02iw_flt.fits'
+[INFO    ]        EXT: 'SCI',1;	MASK: hst_14022_02_wfc3_ir_f140w_icsf02iw_skymatch_mask_sci1.fits[0]
+[INFO    ] 
+[INFO    ]    **  Input image: 'hst_14022_02_wfc3_ir_f140w_icsf02iz_flt.fits'
+[INFO    ]        EXT: 'SCI',1;	MASK: hst_14022_02_wfc3_ir_f140w_icsf02iz_skymatch_mask_sci1.fits[0]
+[INFO    ] 
+[INFO    ]    **  Input image: 'hst_14022_02_wfc3_ir_f140w_icsf02j2_flt.fits'
+[INFO    ]        EXT: 'SCI',1;	MASK: hst_14022_02_wfc3_ir_f140w_icsf02j2_skymatch_mask_sci1.fits[0]
+[INFO    ] 
+[INFO    ] -----  Sky statistics parameters:  -----
+[INFO    ]        statistics function: 'median'
+[INFO    ]        lower = -100.0
+[INFO    ]        upper = None
+[INFO    ]        nclip = 5
+[INFO    ]        lsigma = 4.0
+[INFO    ]        usigma = 4.0
+[INFO    ]        binwidth = 0.1
+[INFO    ] 
+[INFO    ] -----  Data->Brightness conversion parameters for input files:  -----
+[INFO    ] 
+[INFO    ]    *   Image: hst_14022_02_wfc3_ir_f140w_icsf02iw_flt.fits
+[INFO    ]        EXT = 'SCI',1
+[INFO    ]              Data units type: COUNT-RATE
+[INFO    ]              Conversion factor (data->brightness):  60.797431635711504
+[INFO    ] 
+[INFO    ]    *   Image: hst_14022_02_wfc3_ir_f140w_icsf02iz_flt.fits
+[INFO    ]        EXT = 'SCI',1
+[INFO    ]              Data units type: COUNT-RATE
+[INFO    ]              Conversion factor (data->brightness):  60.797431635711504
+[INFO    ] 
+[INFO    ]    *   Image: hst_14022_02_wfc3_ir_f140w_icsf02j2_flt.fits
+[INFO    ]        EXT = 'SCI',1
+[INFO    ]              Data units type: COUNT-RATE
+[INFO    ]              Conversion factor (data->brightness):  60.797431635711504
+[INFO    ] 
+[INFO    ] 
+[INFO    ] -----  Computing differences in sky values in overlapping regions:  -----
+[INFO    ] 
+[INFO    ]    *   Image 'hst_14022_02_wfc3_ir_f140w_icsf02iw_flt.fits['SCI',1]' SKY = 7.90094 [brightness units]
+[INFO    ]        Updating sky of image extension(s) [data units]:
+[INFO    ]        -  EXT = 'SCI',1   delta(MDRIZSKY) = 0.129955
+[INFO    ] 
+[INFO    ]    *   Image 'hst_14022_02_wfc3_ir_f140w_icsf02iz_flt.fits['SCI',1]' SKY = 11.4404 [brightness units]
+[INFO    ]        Updating sky of image extension(s) [data units]:
+[INFO    ]        -  EXT = 'SCI',1   delta(MDRIZSKY) = 0.188173
+[INFO    ] 
+[INFO    ]    *   Image 'hst_14022_02_wfc3_ir_f140w_icsf02j2_flt.fits['SCI',1]' SKY = 0 [brightness units]
+[INFO    ]        Updating sky of image extension(s) [data units]:
+[INFO    ]        -  EXT = 'SCI',1   delta(MDRIZSKY) = 0
+[INFO    ] 
+[INFO    ] ***** skymatch ended on 2021-01-19 12:32:21.788318
+[INFO    ] TOTAL RUN TIME: 0:00:00.521881
+[INFO    ] ==== Processing Step Subtract Sky finished at 12:32:21.856 (19/01/2021)
+[INFO    ] ==== Processing Step  Separate Drizzle  started at  12:32:21.857 (19/01/2021)
+[INFO    ] 
+[INFO    ] Interpreted paramDict with single=True as:
+{'build': True, 'stepsize': 10, 'coeffs': True, 'wcskey': '', 'kernel': 'turbo', 'wt_scl': 'exptime', 'pixfrac': 1.0, 'fillval': None, 'bits': 65535, 'compress': False, 'units': 'cps'}
+[INFO    ] USER INPUT PARAMETERS for Separate Drizzle Step:
+[INFO    ] 	bits :	65535
+[INFO    ] 	build :	False
+[INFO    ] 	clean :	True
+[INFO    ] 	coeffs :	True
+[INFO    ] 	compress :	False
+[INFO    ] 	crbit :	None
+[INFO    ] 	fillval :	None
+[INFO    ] 	kernel :	turbo
+[INFO    ] 	num_cores :	1
+[INFO    ] 	pixfrac :	1.0
+[INFO    ] 	proc_unit :	electrons
+[INFO    ] 	rules_file :	hst_14022_02_wfc3_ir_f140w_icsf02iw_header_hap.rules
+[INFO    ] 	stepsize :	10
+[INFO    ] 	units :	cps
+[INFO    ] 	wcskey :	
+[INFO    ] 	wht_type :	None
+[INFO    ] 	wt_scl :	exptime
+[INFO    ]   **Using sub-sampling value of 10 for kernel turbo
+[INFO    ] Running Drizzle to create output frame with WCS of: 
+[INFO    ] WCS Keywords
+[INFO    ] 
+[INFO    ] Number of WCS axes: 2
+[INFO    ] CTYPE : 'RA---TAN'  'DEC--TAN'  
+[INFO    ] CRVAL : 89.83268582551989  -14.08124325753942  
+[INFO    ] CRPIX : 139.0  124.0  
+[INFO    ] CD1_1 CD1_2  : -4.012239791142332e-06  -3.539834195951537e-05  
+[INFO    ] CD2_1 CD2_2  : -3.539834195951537e-05  4.012239791142332e-06  
+[INFO    ] NAXIS : 278  248
+[INFO    ] Executing serially
+[INFO    ] -Drizzle input: hst_14022_02_wfc3_ir_f140w_icsf02iw_flt.fits[sci,1]
+[INFO    ] Applying sky value of 0.129955 to hst_14022_02_wfc3_ir_f140w_icsf02iw_flt.fits[sci,1]
+[INFO    ] Using WCSLIB-based coordinate transformation...
+[INFO    ] stepsize = 10
+[INFO    ] -Drizzling using kernel = turbo
+
+[INFO    ] -Generating simple FITS output: hst_14022_02_wfc3_ir_f140w_icsf02iw_single_sci.fits
+[WARNING ] /dms/local/hst/pipeline/pkgs/miniconda3/envs/caldp_20201208/lib/python3.6/site-packages/astropy/io/fits/card.py:1003: VerifyWarning: Card is too long, comment will be truncated.
+  VerifyWarning)
+
+[INFO    ] Writing out image to disk: hst_14022_02_wfc3_ir_f140w_icsf02iw_single_sci.fits
+[INFO    ] Writing out image to disk: hst_14022_02_wfc3_ir_f140w_icsf02iw_single_wht.fits
+[INFO    ] -Drizzle input: hst_14022_02_wfc3_ir_f140w_icsf02iz_flt.fits[sci,1]
+[INFO    ] Applying sky value of 0.188173 to hst_14022_02_wfc3_ir_f140w_icsf02iz_flt.fits[sci,1]
+[INFO    ] Using WCSLIB-based coordinate transformation...
+[INFO    ] stepsize = 10
+[INFO    ] -Drizzling using kernel = turbo
+
+[INFO    ] -Generating simple FITS output: hst_14022_02_wfc3_ir_f140w_icsf02iz_single_sci.fits
+[INFO    ] Writing out image to disk: hst_14022_02_wfc3_ir_f140w_icsf02iz_single_sci.fits
+[INFO    ] Writing out image to disk: hst_14022_02_wfc3_ir_f140w_icsf02iz_single_wht.fits
+[INFO    ] -Drizzle input: hst_14022_02_wfc3_ir_f140w_icsf02j2_flt.fits[sci,1]
+[INFO    ] Applying sky value of 0.000000 to hst_14022_02_wfc3_ir_f140w_icsf02j2_flt.fits[sci,1]
+[INFO    ] Using WCSLIB-based coordinate transformation...
+[INFO    ] stepsize = 10
+[INFO    ] -Drizzling using kernel = turbo
+
+[INFO    ] -Generating simple FITS output: hst_14022_02_wfc3_ir_f140w_icsf02j2_single_sci.fits
+[INFO    ] Writing out image to disk: hst_14022_02_wfc3_ir_f140w_icsf02j2_single_sci.fits
+[INFO    ] Writing out image to disk: hst_14022_02_wfc3_ir_f140w_icsf02j2_single_wht.fits
+[INFO    ] ==== Processing Step Separate Drizzle finished at 12:32:22.886 (19/01/2021)
+[INFO    ] ==== Processing Step  Create Median  started at  12:32:22.886 (19/01/2021)
+[INFO    ] 
+[INFO    ] USER INPUT PARAMETERS for Create Median Step:
+[INFO    ] 	combine_bufsize :	None
+[INFO    ] 	combine_grow :	1
+[INFO    ] 	combine_hthresh :	None
+[INFO    ] 	combine_lthresh :	None
+[INFO    ] 	combine_maskpt :	0.3
+[INFO    ] 	combine_nhigh :	1
+[INFO    ] 	combine_nlow :	0
+[INFO    ] 	combine_nsigma :	4 3
+[INFO    ] 	combine_type :	minmed
+[INFO    ] 	compress :	False
+[INFO    ] 	median :	True
+[INFO    ] 	median_newmasks :	True
+[INFO    ] 	proc_unit :	native
+[INFO    ] reference sky value for image 'hst_14022_02_wfc3_ir_f140w_icsf02iw_flt.fits' is 0.5415528008707065
+[INFO    ] reference sky value for image 'hst_14022_02_wfc3_ir_f140w_icsf02iz_flt.fits' is 0.7841591425504336
+[INFO    ] reference sky value for image 'hst_14022_02_wfc3_ir_f140w_icsf02j2_flt.fits' is 0.0
+[INFO    ] Saving output median image to: 'hst_14022_02_wfc3_ir_f140w_icsf02_med.fits'
+[INFO    ] ==== Processing Step Create Median finished at 12:32:22.950 (19/01/2021)
+[INFO    ] ==== Processing Step  Blot  started at  12:32:22.951 (19/01/2021)
+[INFO    ] 
+[INFO    ] USER INPUT PARAMETERS for Blot Step:
+[INFO    ] 	blot_addsky :	True
+[INFO    ] 	blot_interp :	poly5
+[INFO    ] 	blot_sinscl :	1.0
+[INFO    ] 	blot_skyval :	0.0
+[INFO    ] 	coeffs :	True
+[INFO    ]     Blot: creating blotted image:  hst_14022_02_wfc3_ir_f140w_icsf02iw_flt.fits[sci,1]
+[INFO    ] Using default C-based coordinate transformation...
+[INFO    ] Applying sky value of 0.129955 to blotted image hst_14022_02_wfc3_ir_f140w_icsf02iw_flt.fits[sci,1]
+[INFO    ] -Generating simple FITS output: hst_14022_02_wfc3_ir_f140w_icsf02iw_sci1_blt.fits
+[INFO    ] Writing out image to disk: hst_14022_02_wfc3_ir_f140w_icsf02iw_sci1_blt.fits
+[WARNING ] /dms/local/hst/pipeline/pkgs/miniconda3/envs/caldp_20201208/lib/python3.6/site-packages/astropy/io/fits/card.py:1003: VerifyWarning: Card is too long, comment will be truncated.
+  VerifyWarning)
+
+[INFO    ]     Blot: creating blotted image:  hst_14022_02_wfc3_ir_f140w_icsf02iz_flt.fits[sci,1]
+[INFO    ] Using default C-based coordinate transformation...
+[INFO    ] Applying sky value of 0.188173 to blotted image hst_14022_02_wfc3_ir_f140w_icsf02iz_flt.fits[sci,1]
+[INFO    ] -Generating simple FITS output: hst_14022_02_wfc3_ir_f140w_icsf02iz_sci1_blt.fits
+[INFO    ] Writing out image to disk: hst_14022_02_wfc3_ir_f140w_icsf02iz_sci1_blt.fits
+[WARNING ] /dms/local/hst/pipeline/pkgs/miniconda3/envs/caldp_20201208/lib/python3.6/site-packages/astropy/io/fits/card.py:1003: VerifyWarning: Card is too long, comment will be truncated.
+  VerifyWarning)
+
+[INFO    ]     Blot: creating blotted image:  hst_14022_02_wfc3_ir_f140w_icsf02j2_flt.fits[sci,1]
+[INFO    ] Using default C-based coordinate transformation...
+[INFO    ] Applying sky value of 0.000000 to blotted image hst_14022_02_wfc3_ir_f140w_icsf02j2_flt.fits[sci,1]
+[INFO    ] -Generating simple FITS output: hst_14022_02_wfc3_ir_f140w_icsf02j2_sci1_blt.fits
+[INFO    ] Writing out image to disk: hst_14022_02_wfc3_ir_f140w_icsf02j2_sci1_blt.fits
+[WARNING ] /dms/local/hst/pipeline/pkgs/miniconda3/envs/caldp_20201208/lib/python3.6/site-packages/astropy/io/fits/card.py:1003: VerifyWarning: Card is too long, comment will be truncated.
+  VerifyWarning)
+
+[INFO    ] ==== Processing Step Blot finished at 12:32:23.640 (19/01/2021)
+[INFO    ] ==== Processing Step  Driz_CR  started at  12:32:23.640 (19/01/2021)
+[INFO    ] 
+[INFO    ] USER INPUT PARAMETERS for Driz_CR Step:
+[INFO    ] 	crbit :	4096
+[INFO    ] 	driz_cr :	True
+[INFO    ] 	driz_cr_corr :	False
+[INFO    ] 	driz_cr_ctegrow :	0
+[INFO    ] 	driz_cr_grow :	1
+[INFO    ] 	driz_cr_scale :	3.0 2.4
+[INFO    ] 	driz_cr_snr :	5.0 4.0
+[INFO    ] 	inmemory :	False
+[INFO    ] Executing serially
+[INFO    ] Creating output: hst_14022_02_wfc3_ir_f140w_icsf02iw_sci1_crmask.fits
+[INFO    ] Creating output: hst_14022_02_wfc3_ir_f140w_icsf02iz_sci1_crmask.fits
+[INFO    ] Creating output: hst_14022_02_wfc3_ir_f140w_icsf02j2_sci1_crmask.fits
+[INFO    ] ==== Processing Step Driz_CR finished at 12:32:23.69 (19/01/2021)
+[INFO    ] ==== Processing Step  Final Drizzle  started at  12:32:23.693 (19/01/2021)
+[INFO    ] 
+[INFO    ] Interpreted paramDict with single=False as:
+{'build': True, 'stepsize': 10, 'coeffs': True, 'wcskey': '', 'wht_type': 'EXP', 'kernel': 'square', 'wt_scl': 'exptime', 'pixfrac': 1.0, 'fillval': None, 'maskval': None, 'bits': 528, 'units': 'cps'}
+[INFO    ] USER INPUT PARAMETERS for Final Drizzle Step:
+[INFO    ] 	bits :	528
+[INFO    ] 	build :	True
+[INFO    ] 	clean :	True
+[INFO    ] 	coeffs :	True
+[INFO    ] 	crbit :	4096
+[INFO    ] 	fillval :	None
+[INFO    ] 	kernel :	square
+[INFO    ] 	maskval :	None
+[INFO    ] 	pixfrac :	1.0
+[INFO    ] 	proc_unit :	native
+[INFO    ] 	rules_file :	hst_14022_02_wfc3_ir_f140w_icsf02iw_header_hap.rules
+[INFO    ] 	stepsize :	10
+[INFO    ] 	units :	cps
+[INFO    ] 	wcskey :	
+[INFO    ] 	wht_type :	EXP
+[INFO    ] 	wt_scl :	exptime
+[INFO    ]   **Using sub-sampling value of 10 for kernel square
+[INFO    ] Running Drizzle to create output frame with WCS of: 
+[INFO    ] WCS Keywords
+[INFO    ] 
+[INFO    ] Number of WCS axes: 2
+[INFO    ] CTYPE : 'RA---TAN'  'DEC--TAN'  
+[INFO    ] CRVAL : 89.83134209477149  -14.082294272475092  
+[INFO    ] CRPIX : 595.0694598355645  600.027657667895  
+[INFO    ] CD1_1 CD1_2  : -3.562500079472858e-05  0.0  
+[INFO    ] CD2_1 CD2_2  : 0.0  3.562500079472858e-05  
+[INFO    ] NAXIS : 1191  1199
+[INFO    ] -Drizzle input: hst_14022_02_wfc3_ir_f140w_icsf02iw_flt.fits[sci,1]
+[INFO    ] Applying sky value of 0.129955 to hst_14022_02_wfc3_ir_f140w_icsf02iw_flt.fits[sci,1]
+[INFO    ] Applying EXPTIME weighting to DQ mask for chip 1
+[INFO    ] Using WCSLIB-based coordinate transformation...
+[INFO    ] stepsize = 10
+[INFO    ] -Drizzling using kernel = square
+
+[INFO    ] -Drizzle input: hst_14022_02_wfc3_ir_f140w_icsf02iz_flt.fits[sci,1]
+[INFO    ] Applying sky value of 0.188173 to hst_14022_02_wfc3_ir_f140w_icsf02iz_flt.fits[sci,1]
+[INFO    ] Applying EXPTIME weighting to DQ mask for chip 1
+[INFO    ] Using WCSLIB-based coordinate transformation...
+[INFO    ] stepsize = 10
+[INFO    ] -Drizzling using kernel = square
+
+[INFO    ] -Drizzle input: hst_14022_02_wfc3_ir_f140w_icsf02j2_flt.fits[sci,1]
+[INFO    ] Applying sky value of 0.000000 to hst_14022_02_wfc3_ir_f140w_icsf02j2_flt.fits[sci,1]
+[INFO    ] Applying EXPTIME weighting to DQ mask for chip 1
+[INFO    ] Using WCSLIB-based coordinate transformation...
+[INFO    ] stepsize = 10
+[INFO    ] -Drizzling using kernel = square
+
+[INFO    ] -Generating multi-extension output file:  hst_14022_02_wfc3_ir_f140w_icsf02_drz.fits
+[INFO    ] Deleted all instances of WCS with key A in extensions [1]
+[INFO    ] Writing out to disk: hst_14022_02_wfc3_ir_f140w_icsf02_drz.fits
+[WARNING ] /dms/local/hst/pipeline/pkgs/miniconda3/envs/caldp_20201208/lib/python3.6/site-packages/astropy/io/fits/card.py:1003: VerifyWarning: Card is too long, comment will be truncated.
+  VerifyWarning)
+
+[INFO    ] ==== Processing Step Final Drizzle finished at 12:32:24.889 (19/01/2021)
+[INFO    ] 
+[INFO    ] AstroDrizzle Version 3.2.0 is finished processing at 12:32:24.890 (19/01/2021).
+[INFO    ] 
+[INFO    ] 
+[INFO    ] 
+[INFO    ]    --------------------          --------------------
+[INFO    ]                    Step          Elapsed time
+[INFO    ]    --------------------          --------------------
+[INFO    ] 
+[INFO    ]          Initialization          0.7108 sec.
+[INFO    ]             Static Mask          0.0246 sec.
+[INFO    ]            Subtract Sky          0.7925 sec.
+[INFO    ]        Separate Drizzle          1.0295 sec.
+[INFO    ]           Create Median          0.0639 sec.
+[INFO    ]                    Blot          0.6893 sec.
+[INFO    ]                 Driz_CR          0.0524 sec.
+[INFO    ]           Final Drizzle          1.1968 sec.
+[INFO    ]    ====================          ====================
+[INFO    ]                   Total          4.5598 sec.
+[INFO    ] 
+[INFO    ] Removing intermediate files for hst_14022_02_wfc3_ir_f140w_icsf02iw_flt.fits
+[INFO    ] Removing intermediate files for hst_14022_02_wfc3_ir_f140w_icsf02iz_flt.fits
+[INFO    ] Removing intermediate files for hst_14022_02_wfc3_ir_f140w_icsf02j2_flt.fits
+[INFO    ] Trailer file written to:  hst_14022_02_wfc3_ir_f140w_icsf02_trl.log
