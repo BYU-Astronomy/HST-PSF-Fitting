@@ -5,6 +5,8 @@ import json
 from astropy.io import fits
 from photutils import centroid_2dg
 from photutils import CircularAperture
+from photutils import DAOStarFinder
+from astropy.stats import mad_std
 from photutils import aperture_photometry as phot
 from astropy.io import fits
 import sys, os, getopt
@@ -52,13 +54,32 @@ out = open(out_file, 'w')
 out.write(image_header['ROOTNAME'] + ' - ' + filtername + '\n')
 out.write('UT ' + image_header['DATE-OBS'] + ' ' + image_header['TIME-OBS'] + '\n\n')
 
+#print(image_header)
 #Prompt for x and ycoordinates, store coordinates as tuple 'center'
-print('Please enter the coordinates of the center of the object')
-center = input('in the format "XXX YYY" with a space between each number\n')
+print('psf_model shape', psf_model_data.shape)
+
+if psf_model_data.shape[0]%10 != 0:
+    sys.exit('The psf_model being used for this run is not subsampled by 10X, and is thereby too small. Please generate a subsmapled psf_model image, and then run again.')
+if psf_model_data.shape[1]%10 != 0:
+    sys.exit('The psf_model being used for this run is not subsampled by 10X, and is thereby too small. Please generate a subsampled psf_model image, and then run again.')
+    
+
+bkg_sigma = mad_std(psf_image_data)
+daofind = DAOStarFinder(fwhm=4., threshold=6.*bkg_sigma)
+sources = daofind(psf_image_data)
+#print(sources)
+ind = np.array(sources['peak']).argmax()
+xcent= round(sources['xcentroid'][ind])
+ycent= round(sources['ycentroid'][ind])
+
+center = [xcent,ycent]
+print(center)
+#print('Please enter the coordinates of the center of the object')
+#center = input('in the format "XXX YYY" with a space between each number\n')
+#center = [int(center.split()[1]), int(center.split()[0])]
 
 #Prepare the image data for calculations
 bkgd = cameras[instrument]['Background']
-center = [int(center.split()[1]), int(center.split()[0])]
 image_psf = psf_image_data[center[0]-3:center[0]+2, center[1]-3:center[1]+2]
 image_psf = image_psf - bkgd
 print('Image_psf:', image_psf)

@@ -84,5 +84,34 @@
      "F222M":{"Fv": 635.1,"apcorr":1.1187},
      "F240M":{"Fv": 559.9,"apcorr":1.1328}
     }
+  },
+    
+  "WFC3":
+  {
+    "CameraName": "WFC3",
+    "Telescope": "HST",
+    "Background":  0.0,
+    "Aperture":  5.5,
+    "PlateScaleX": 0.04,
+    "PlateScaleY": 0.04,
+    "Filters":
+    {
+     "F108N":{"Fv":1,"apcorr":1},
+     "F110W":{"Fv":1863.4,"apcorr":1.0562},
+     "F113N":{"Fv":1,"apcorr":1},
+     "F150W":{"Fv":1,"apcorr":1},
+     "F160W":{"Fv":1,"apcorr":1},
+     "F164N":{"Fv":1,"apcorr":1},
+     "F166N":{"Fv":1,"apcorr":1},
+     "F175W":{"Fv":1 ,"apcorr":1},
+     "F187N":{"Fv":1 ,"apcorr":1},
+     "F190N":{"Fv":1 ,"apcorr":1},
+     "F196N":{"Fv":1 ,"apcorr":1},
+     "F200N":{"Fv":1 ,"apcorr":1},
+     "F212N":{"Fv":1 ,"apcorr":1},
+     "F215N":{"Fv":1 ,"apcorr":1},
+     "F222M":{"Fv":1 ,"apcorr":1},
+     "F240M":{"Fv":1 ,"apcorr":1}
+    }
   }
 }

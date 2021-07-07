@@ -1,0 +1,70 @@
+n6nb48z6q - F110W
+UT 2003-01-23 02:48:15
+
+Single Fit:
+Iteration: 1 PSF: 0 Flux: 9.646663056577744 Min Chi-Square: 0.37487294593540005 Residual Error: 0.1500299894145576
+Iteration: 2 PSF: 0 Flux: 9.646663056577744 Min Chi-Square: 0.37487294593540005 Residual Error: 0.1500299894145576
+	---
+Binary Fit:
+1  Residual error:0.13042
+ Primary: (141.54,150.45)  Secondary: (143.24,150.55)
+ Primary PSF:   90 f:    2.5221 (19.98%)
+ Secondary PSF: 29 f:   10.0989 (80.02%)
+ Position Angle:  94.57 Separation: 0.1292
+ Primary Magnitude: 22.021 Secondary Magnitude: 20.514
+
+2  Residual error:0.13141
+ Primary: (142.44,150.45)  Secondary: (142.44,148.95)
+ Primary PSF:    0 f:    9.6469 (94.64%)
+ Secondary PSF:  5 f:    0.5459 ( 5.36%)
+ Position Angle:   1.22 Separation: 0.1128
+ Primary Magnitude: 20.558 Secondary Magnitude: 23.679
+
+3  Residual error:0.13309
+ Primary: (142.44,150.45)  Secondary: (140.54,149.45)
+ Primary PSF:    0 f:    9.6466 (91.57%)
+ Secondary PSF: 90 f:    0.8879 ( 8.43%)
+ Position Angle: 118.97 Separation: 0.1626
+ Primary Magnitude: 20.558 Secondary Magnitude: 23.155
+
+4  Residual error:0.13907
+ Primary: (142.44,149.75)  Secondary: (142.44,150.95)
+ Primary PSF:    7 f:    3.4364 (30.69%)
+ Secondary PSF:  5 f:    7.7613 (69.31%)
+ Position Angle:   1.22 Separation: 0.0903
+ Primary Magnitude: 21.685 Secondary Magnitude: 20.797
+
+5  Residual error:0.14470
+ Primary: (142.44,150.45)  Secondary: (143.44,149.45)
+ Primary PSF:    0 f:    7.5725 (62.04%)
+ Secondary PSF:  0 f:    4.6329 (37.96%)
+ Position Angle:  46.22 Separation: 0.1068
+ Primary Magnitude: 20.821 Secondary Magnitude: 21.355
+
+6  Residual error:0.14812
+ Primary: (142.44,150.45)  Secondary: (140.54,151.45)
+ Primary PSF:    0 f:    9.3845 (87.07%)
+ Secondary PSF: 90 f:    1.3934 (12.93%)
+ Position Angle:  63.47 Separation: 0.1626
+ Primary Magnitude: 20.588 Secondary Magnitude: 22.665
+
+7  Residual error:0.14841
+ Primary: (142.44,150.45)  Secondary: (140.54,150.45)
+ Primary PSF:    0 f:    9.2619 (90.02%)
+ Secondary PSF: 90 f:    1.0272 ( 9.98%)
+ Position Angle:  91.22 Separation: 0.1442
+ Primary Magnitude: 20.603 Secondary Magnitude: 22.996
+
+8  Residual error:0.14978
+ Primary: (142.44,150.45)  Secondary: (142.44,150.45)
+ Primary PSF:    0 f:    9.6466 (93.72%)
+ Secondary PSF:  0 f:    0.6466 ( 6.28%)
+ Position Angle:   0.00 Separation: 0.0000
+ Primary Magnitude: 20.558 Secondary Magnitude: 23.493
+
+9  Residual error:0.16858
+ Primary: (142.44,150.45)  Secondary: (143.44,149.85)
+ Primary PSF:    0 f:    5.9563 (46.95%)
+ Secondary PSF:  6 f:    6.7311 (53.05%)
+ Position Angle:  60.22 Separation: 0.0883
+ Primary Magnitude: 21.082 Secondary Magnitude: 20.953
