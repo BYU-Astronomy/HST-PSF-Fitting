@@ -34,33 +34,37 @@ else:
 	frame = 0
 	
 psf_image_data = np.array(psf_image[frame].data, dtype = '<f8')
-image_header = psf_image[0].header
+
+image_header_0 = psf_image[0].header
+if image_header_0['INSTRUME'] == 'WFC3':
+    image_header_1 = psf_image[1].header
+
 psf_image.close()
 
-telescope = image_header['TELESCOP']
-print(image_header['INSTRUME'])
-if image_header['INSTRUME'] == 'WFC3':
-    instrument = image_header['INSTRUME']
+telescope = image_header_0['TELESCOP']
+print(image_header_0['INSTRUME'])
+if image_header_0['INSTRUME'] == 'WFC3':
+    instrument = image_header_0['INSTRUME']
 else:
-    instrument = image_header['INSTRUME'] + str(image_header['CAMERA'])
-filtername = image_header['FILTER']
+    instrument = image_header_0['INSTRUME'] + str(image_header_0['CAMERA'])
+filtername = image_header_0['FILTER']
 header_array = [telescope, instrument, filtername]
 
 print(header_array)
 #Create the output file
 #Initilaized with the file rootname, filter, and date of observsation
-out_file = image_header['ROOTNAME'] + '_output.txt'
+out_file = image_header_0['ROOTNAME'] + '_output.txt'
 out = open(out_file, 'w')
-out.write(image_header['ROOTNAME'] + ' - ' + filtername + '\n')
-out.write('UT ' + image_header['DATE-OBS'] + ' ' + image_header['TIME-OBS'] + '\n\n')
+out.write(image_header_0['ROOTNAME'] + ' - ' + filtername + '\n')
+out.write('UT ' + image_header_0['DATE-OBS'] + ' ' + image_header_0['TIME-OBS'] + '\n\n')
 
 #print(image_header)
 #Prompt for x and ycoordinates, store coordinates as tuple 'center'
 print('psf_model shape', psf_model_data.shape)
 
-if psf_model_data.shape[0]%10 != 0:
-    sys.exit('The psf_model being used for this run is not subsampled by 10X, and is thereby too small. Please generate a subsmapled psf_model image, and then run again.')
-if psf_model_data.shape[1]%10 != 0:
+if psf_model_data.shape[0] <= 100:
+    sys.exit('The psf_model being used for this run is not subsampled, and is thereby too small. Please generate a subsmapled psf_model image, and then run again.')
+if psf_model_data.shape[1] <= 100:
     sys.exit('The psf_model being used for this run is not subsampled by 10X, and is thereby too small. Please generate a subsampled psf_model image, and then run again.')
     
 
@@ -73,7 +77,7 @@ xcent= round(sources['xcentroid'][ind])
 ycent= round(sources['ycentroid'][ind])
 
 center = [xcent,ycent]
-print(center)
+#print(center)
 #print('Please enter the coordinates of the center of the object')
 #center = input('in the format "XXX YYY" with a space between each number\n')
 #center = [int(center.split()[1]), int(center.split()[0])]
@@ -82,7 +86,7 @@ print(center)
 bkgd = cameras[instrument]['Background']
 image_psf = psf_image_data[center[0]-3:center[0]+2, center[1]-3:center[1]+2]
 image_psf = image_psf - bkgd
-print('Image_psf:', image_psf)
+#print('Image_psf:', image_psf)
 
 #save the two psf arrays to files to be read into C++ 
 #np.savetxt('psf_model_data.csv', psf_model_data, delimiter = ',') 
@@ -166,9 +170,14 @@ for i in range(len(residual_error_array)):
 	
 PlateScaleX = cameras[instrument]['PlateScaleX']
 PlateScaleY = cameras[instrument]['PlateScaleY']
+#print(outputs)
 	
 print('- - -\nBegin calculation of angles and separation')	
-orient=image_header['orientat']%360
+
+if image_header_0['INSTRUME'] == "WFC3":
+    orient=image_header_1['orientat']%360
+else:
+    orient=image_header_0['orientat']%360
 
 #array_of_PSFs = np.load('tempdata/array_of_PSFs.npy')
 array_of_PSFs = []
@@ -176,7 +185,7 @@ for i in range(100):
 	filename = "tempdata/PSFmodel_" + str(i + 1) + ".npy"
 	array_of_PSFs.append(np.load(filename))
 array_of_PSFs = np.asarray(array_of_PSFs)
-print('Array of PSFs: ',array_of_PSFs.shape)
+#print('Array of PSFs: ',array_of_PSFs.shape)
 
 bestprim=[]
 bestsec=[]
@@ -203,11 +212,14 @@ for itr,output in enumerate(outputs):
 
     bestprim.append((array_of_PSFs[output[3]]*output[4],(y1,x1)))
     bestsec.append((array_of_PSFs[output[5]]*output[6],(y2,x2)))
+    
+    #print(xp, yp, xs, ys, x1, y1, x2, y2)
 outputs=tempout
+
 
 print('- - -\nBegin calculation of magnitudes')
 
-FNU=image_header['PHOTFNU']
+FNU=image_header_0['PHOTFNU']
 Fv=cameras[instrument]['Filters'][filtername]['Fv']
 apcorr=cameras[instrument]['Filters'][filtername]['apcorr']
 magsout=[]
@@ -256,8 +268,67 @@ for itr,output in enumerate(outputs):
     out.write(' Primary Magnitude: %6.3f Secondary Magnitude: %6.3f\n'
         %(output[10],output[11]))
 out.close()
+
+
 print('end')
 	
+
+prim_coords = []
+prim_coords.append((outputs[0][1][1] - 0.1, outputs[0][1][0] - 0.1))
+prim_coords.append((outputs[0][1][1] - 0.1, outputs[0][1][0] + 0))
+prim_coords.append((outputs[0][1][1] - 0.1, outputs[0][1][0] + 0.1))
+prim_coords.append((outputs[0][1][1] + 0, outputs[0][1][0] - 0.1))
+prim_coords.append((outputs[0][1][1] + 0, outputs[0][1][0] + 0))
+prim_coords.append((outputs[0][1][1] + 0, outputs[0][1][0] + 0.1))
+prim_coords.append((outputs[0][1][1] + 0.1, outputs[0][1][0] - 0.1))
+prim_coords.append((outputs[0][1][1] + 0.1, outputs[0][1][0] + 0))
+prim_coords.append((outputs[0][1][1] + 0.1, outputs[0][1][0] + 0.1))
+
+sec_coords = []
+sec_coords.append((outputs[0][2][1] - 0.1, outputs[0][2][0] - 0.1))
+sec_coords.append((outputs[0][2][1] - 0.1, outputs[0][2][0] + 0))
+sec_coords.append((outputs[0][2][1] - 0.1, outputs[0][2][0] + 0.1))
+sec_coords.append((outputs[0][2][1] + 0, outputs[0][2][0] - 0.1))
+sec_coords.append((outputs[0][2][1] + 0, outputs[0][2][0] + 0))
+sec_coords.append((outputs[0][2][1] + 0, outputs[0][2][0] + 0.1))
+sec_coords.append((outputs[0][2][1] + 0.1, outputs[0][2][0] - 0.1))
+sec_coords.append((outputs[0][2][1] + 0.1, outputs[0][2][0] + 0))
+sec_coords.append((outputs[0][2][1] + 0.1, outputs[0][2][0] + 0.1))
+
+temp = []
+for secondary in sec_coords:
+	if not any(i < 0 for i in secondary):
+		if secondary[0] < psf_image_data.shape[0]:
+	        	if secondary[1] < psf_image_data.shape[1]:
+	        		temp.append(secondary)
+	        
+sec_coords = np.asarray(temp, dtype = '<f8')
+
+#print(prim_coords, sec_coords)
+#save coords and center to csv files to be used in binary fitting in C++
+np.save('tempdata/prim_coords.txt', prim_coords)
+np.save('tempdata/sec_coords.txt', sec_coords)
+
+residual_error_array = np.load('tempdata/residual_error_array.npy')
+center_array = np.load('tempdata/center_array.npy')
+secondary_array = np.load('tempdata/secondary_array.npy')
+best_primary_array = np.load('tempdata/best_primary_array.npy')
+flux_primary_array = np.load('tempdata/flux_primary_array.npy')
+best_secondary_array = np.load('tempdata/best_secondary_array.npy')
+flux_secondary_array = np.load('tempdata/flux_secondary_array.npy')
+flux_sum_array = np.load('tempdata/flux_sum_array.npy')
+
+np.load('tempdata/residual_error_array.txt', residual_error_array)
+np.load('tempdata/center_array.txt',center_array)
+np.load('tempdata/secondary_array.txt',secondary_array)
+np.load('tempdata/best_primary_array.txt',best_primary_array)
+np.load('tempdata/flux_primary_array.txt',flux_primary_array)
+np.load('tempdata/best_secondary_array.txt',best_secondary_array)
+np.load('tempdata/flux_secondary_array.txt',flux_secondary_array)
+np.load('tempdata/flux_sum_array.txt',flux_sum_array)
+
+os.system('./Secondary_Binary_Fitting')
+
 
 
 #Call 1st C++ program - this program handles the binning of the model and the single fit

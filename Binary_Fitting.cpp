@@ -88,7 +88,7 @@ xt::xarray<int> BinaryPSF(xt::xarray<xt::xarray<double>> array_of_PSFs, xt::xarr
 
 	auto chi = xt::adapt(chi_array, {100, 100, 19});
 	xt::xarray<int> best_PSFs = xt::adapt(xt::unravel_index(xt::argmin(chi)(0), chi.shape(), xt::layout_type::row_major), {3});
-	
+	cout << best_PSFs << endl;
 	return best_PSFs;
 }
 
@@ -336,7 +336,6 @@ double RelativeFluxes(xt::xarray<double> PSF_1, xt::xarray<int> coordinates_1, x
 	return best_flux;
 }
 
-
 //MAIN 
 int main() 
 {
@@ -368,12 +367,16 @@ int main()
     	
     	//do the binary fit
     	cout << "Beginning Binary Fit" << endl;
+        //cout << "coordinates" << coordinates << "center" << center << endl;
+    
+    //The coordinates provided are the 9 pixels surrounding the centroid
     	for (int i = 0; i < coordinates.shape()[0]; ++i) {
     		xt::xarray<int> secondary = xt::row(coordinates, i);
     		secondary_coordinates(0) = secondary(0) - center(0) + 2;
     		secondary_coordinates(1) = secondary(1) - center(1) + 2;
-    		
+    		//cout << "Primary coordinates" << primary_coordinates << "Secondary coordinates" << secondary_coordinates << endl;
     		xt::xarray<xt::xarray<double>> w_array = BinaryBase(primary_coordinates, secondary_coordinates);
+            //cout << "w_array" << w_array << endl;
 		xt::xarray<double> w = w_array(0);
 		xt::xarray<int> w1 = w_array(1);
 		xt::xarray<int> w2 = w_array(2);
@@ -402,7 +405,7 @@ int main()
 			flux = BinaryFit(array_of_PSFs(best_primary), array_of_PSFs(best_secondary), secondary_coordinates, image_psf, base, w, best_RF);
     			++iteration ;
     		}
-    		
+    		//cout << "best_primary" << best_primary << "best_secondary" << best_secondary << endl;
     		xt::xarray<double> primary_PSF = array_of_PSFs(best_primary);
     		xt::xarray<double> secondary_PSF = array_of_PSFs(best_secondary);
 
@@ -411,7 +414,7 @@ int main()
     		double flux_primary = 2.0;
 
     		double flux_secondary = SecondaryBinaryFit(primary_PSF, secondary_PSF, secondary_coordinates, w2, image_psf, flux, best_RF);
-
+            //cout << flux_secondary << endl;
     		iteration = 0;
     		
     		//Final WHILE LOOP 
@@ -424,6 +427,7 @@ int main()
 			//CREATE rfpsf FUNCTION
 			flux_primary = RelativeFluxes(primary_PSF, primary_coordinates, secondary_PSF, secondary_coordinates, w1, image_psf, base, flux_secondary);
 			flux_secondary = RelativeFluxes(secondary_PSF, secondary_coordinates, primary_PSF, primary_coordinates, w2, image_psf, base, flux_primary);
+            //cout << flux_primary << flux_secondary << endl;
 			++iteration;
 		}
 		

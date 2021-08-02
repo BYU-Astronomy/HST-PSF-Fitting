@@ -91,20 +91,20 @@ int main() {
 		}
 	}
 	//output image_psf and array_to_PSFs to npy files
-	xt::dump_npy("tempdata/image_psf.npy", image_psf);
-//	cout << xt::adapt(array_of_PSFs.shape()) << endl;
-//	cout << xt::adapt(array_of_PSFs(0).shape()) << endl;
+//	xt::dump_npy("tempdata/image_psf.npy", image_psf);
+	cout << xt::adapt(array_of_PSFs.shape()) << endl;
+	cout << xt::adapt(array_of_PSFs(0).shape()) << endl;
 
-//	cout << array_of_PSFs << endl; 
-//	//array_of_PSFs.reshape({100,-1});    
-//	xt::dump_npy("tempdata/array_of_PSFs.npy", array_of_PSFs);
-//	cout << "Output array of PSFs" << endl;    
+	//cout << array_of_PSFs << endl; 
+	//array_of_PSFs.reshape({100,-1});    
+	xt::dump_npy("tempdata/array_of_PSFs.npy", array_of_PSFs);
+	cout << "Output array of PSFs" << endl;    
     
- 	int length = 100;
-    	for (int i = 1; i <= length; ++i) {
-    		string filename = "tempdata/PSFmodel_" + to_string(i) + ".npy";
-    		xt::dump_npy(filename, array_of_PSFs(i - 1));
-    	}
+// 	int length = 100;
+//    	for (int i = 1; i <= length; ++i) {
+//    		string filename = "tempdata/PSFmodel_" + to_string(i) + ".npy";
+//    		xt::dump_npy(filename, array_of_PSFs(i - 1));
+//    	}
 
 
 
