@@ -83,8 +83,9 @@ center = [xcent,ycent]
 #center = [int(center.split()[1]), int(center.split()[0])]
 
 #Prepare the image data for calculations
+#print(center[0]-3, center[0]+2, center[1]-3, center[1]+2)
 bkgd = cameras[instrument]['Background']
-image_psf = psf_image_data[center[0]-3:center[0]+2, center[1]-3:center[1]+2]
+image_psf = psf_image_data[int(center[0]-3):int(center[0]+2), int(center[1]-3):int(center[1]+2)]
 image_psf = image_psf - bkgd
 #print('Image_psf:', image_psf)
 
@@ -306,28 +307,28 @@ sec_coords = np.asarray(temp, dtype = '<f8')
 
 #print(prim_coords, sec_coords)
 #save coords and center to csv files to be used in binary fitting in C++
-np.save('tempdata/prim_coords.txt', prim_coords)
-np.save('tempdata/sec_coords.txt', sec_coords)
+np.save('tempdata/prim_coords.npy', prim_coords)
+np.save('tempdata/sec_coords.npy', sec_coords)
 
-residual_error_array = np.load('tempdata/residual_error_array.npy')
-center_array = np.load('tempdata/center_array.npy')
-secondary_array = np.load('tempdata/secondary_array.npy')
-best_primary_array = np.load('tempdata/best_primary_array.npy')
-flux_primary_array = np.load('tempdata/flux_primary_array.npy')
-best_secondary_array = np.load('tempdata/best_secondary_array.npy')
-flux_secondary_array = np.load('tempdata/flux_secondary_array.npy')
-flux_sum_array = np.load('tempdata/flux_sum_array.npy')
+#residual_error_array = np.load('tempdata/residual_error_array.npy')
+#center_array = np.load('tempdata/center_array.npy')
+#secondary_array = np.load('tempdata/secondary_array.npy')
+#best_primary_array = np.load('tempdata/best_primary_array.npy')
+#flux_primary_array = np.load('tempdata/flux_primary_array.npy')
+#best_secondary_array = np.load('tempdata/best_secondary_array.npy')
+#flux_secondary_array = np.load('tempdata/flux_secondary_array.npy')
+#flux_sum_array = np.load('tempdata/flux_sum_array.npy')
 
-np.load('tempdata/residual_error_array.txt', residual_error_array)
-np.load('tempdata/center_array.txt',center_array)
-np.load('tempdata/secondary_array.txt',secondary_array)
-np.load('tempdata/best_primary_array.txt',best_primary_array)
-np.load('tempdata/flux_primary_array.txt',flux_primary_array)
-np.load('tempdata/best_secondary_array.txt',best_secondary_array)
-np.load('tempdata/flux_secondary_array.txt',flux_secondary_array)
-np.load('tempdata/flux_sum_array.txt',flux_sum_array)
+#np.load('tempdata/residual_error_array.txt', residual_error_array)
+#np.load('tempdata/center_array.txt',center_array)
+#np.load('tempdata/secondary_array.txt',secondary_array)
+#np.load('tempdata/best_primary_array.txt',best_primary_array)
+#np.load('tempdata/flux_primary_array.txt',flux_primary_array)
+#np.load('tempdata/best_secondary_array.txt',best_secondary_array)
+#np.load('tempdata/flux_secondary_array.txt',flux_secondary_array)
+#np.load('tempdata/flux_sum_array.txt',flux_sum_array)
 
-os.system('./Secondary_Binary_Fitting')
+os.system('./Second_Binary_Fitting')
 
 
 
