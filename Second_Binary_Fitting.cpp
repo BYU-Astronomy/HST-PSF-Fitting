@@ -34,12 +34,6 @@ xt::xarray<xt::xarray<double>> BinaryBase(xt::xarray<int> primary_coordinates, x
 	w1(primary_coordinates(0) + 1, primary_coordinates(1)) = 1;
 	w1(primary_coordinates(0) + 1, primary_coordinates(1) + 1) = 1;
 
-	w2(secondary_coordinates(0) - 1, secondary_coordinates(1) - 1) = 1;
-	w2(secondary_coordinates(0) - 1, secondary_coordinates(1)) = 1;
-	w2(secondary_coordinates(0) - 1, secondary_coordinates(1) + 1) = 1;
-	w2(secondary_coordinates(0), secondary_coordinates(1) - 1) = 1;
-	w2(secondary_coordinates(0), secondary_coordinates(1)) = 1;
-	w2(secondary_coordinates(0), secondary_coordinates(1) + 1) = 1;
 	w2(secondary_coordinates(0) + 1, secondary_coordinates(1) - 1) = 1;
 	w2(secondary_coordinates(0) + 1, secondary_coordinates(1)) = 1;
 	w2(secondary_coordinates(0) + 1, secondary_coordinates(1) + 1) = 1;
