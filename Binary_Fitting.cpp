@@ -23,7 +23,7 @@ xt::xarray<xt::xarray<double>> BinaryBase(xt::xarray<int> primary_coordinates, x
 {
 	xt::xarray<int> w1 = xt::zeros<int>({5,5});
 	xt::xarray<int> w2 = xt::zeros<int>({5,5});
-	
+
 	w1(primary_coordinates(0) - 1, primary_coordinates(1) - 1) = 1;
 	w1(primary_coordinates(0) - 1, primary_coordinates(1)) = 1;
 	w1(primary_coordinates(0) - 1, primary_coordinates(1) + 1) = 1;
@@ -87,10 +87,9 @@ xt::xarray<int> BinaryPSF(xt::xarray<xt::xarray<double>> array_of_PSFs, xt::xarr
 	} 
 
 	auto chi = xt::adapt(chi_array, {100, 100, 19});
-    //cout << "chi :" << chi << endl;
+
 	xt::xarray<int> best_PSFs = xt::adapt(xt::unravel_index(xt::argmin(chi)(0), chi.shape(), xt::layout_type::row_major), {3});
-    //cout << "best_PSFs :" << best_PSFs << endl;
-    //cout << "chi[best+PSFs] " << chi(best_PSFs(0),best_PSFs(1),best_PSFs(2)) << endl;
+
 	return best_PSFs;
 }
 
@@ -183,21 +182,16 @@ xt::xarray<double> BinaryRelativeFlux(xt::xarray<xt::xarray<double>> array_of_PS
 	}
 	
 	xt::xarray<double> chi = xt::adapt(chi_array, {9, 9, 99});
-    //cout << "chi line 187 " << chi << endl;
+
 	xt::xarray<int> best_PSFs = xt::adapt(xt::unravel_index(xt::argmin(chi)(0), chi.shape(), xt::layout_type::row_major), {3});
-    //cout << "best_PSFs line 187 " << best_PSFs << endl;
-    //cout << "line 187 " << primary_ref << endl;
-    //cout << "line 187 " << secondary_ref << endl;
-    //cout << "line 187 " << scale_array << endl;
+
 	double best_primary_ref = primary_ref(best_PSFs(0));
 	double best_secondary_ref = secondary_ref(best_PSFs(1));
 	double best_ref = scale_array(best_PSFs(2));
-    //cout << "line 187 " << best_primary_ref << endl;
-    //cout << "line 187 " << best_secondary_ref << endl;
-    //cout << "line 187 " << best_ref << endl;
+
 	xt::xarray<double> final_best_PSF = {best_primary_ref, best_secondary_ref, best_ref};
 	
-    //cout << "final-best_PSFs " << final_best_PSF << endl;
+
 	return final_best_PSF;
 }
 
@@ -233,9 +227,7 @@ double BinaryFit(xt::xarray<double> model_primary, xt::xarray<double> model_seco
 		
 	auto chi_squareds = xt::adapt(chi_array, {scale_length});
 	auto fluxes = xt::adapt(flux_array, {scale_length});
-    //cout << "chi_squareds :" << chi_squareds << endl;
-    //cout << " chi_array " << chi_array << endl;
-    //cout << " fluxes " << fluxes << endl;
+
 	double min_chi = xt::amin(chi_squareds)(0);
 	int min_chi_index = 0;
 	int chi_length = chi_squareds.shape()[0];
@@ -263,7 +255,7 @@ double SecondaryBinaryFit(xt::xarray<double> primary, xt::xarray<double> seconda
 	
 	xt::xarray<double> PSF1 = (xt::view(primary, xt::range(cy - 2, cy + 3), xt::range(cx - 2, cx + 3)));
 	xt::xarray<double> PSF2 = (xt::view(secondary, xt::range(rangeY_1, rangeY_2), xt::range(rangeX_1, rangeX_2)));
-	//cout << PSF1 << cy << cx << endl;
+
     xt::xarray<double> scale_array = xt::arange<double>(0, 10.0001, .0001);
 	int scale_length = scale_array.shape()[0];
 	vector<double> flux_array;
@@ -359,14 +351,13 @@ int main()
 
 	int array_length = 100;
 	xt::xarray<xt::xarray<double>> array_of_PSFs = xt::zeros<xt::xarray<double>>({array_length});
-//	xt::xarray<xt::xarray<double>> array_of_PSFs = xt::load_npy<double>("tempdata/array_of_PSFs.npy");
     	for (int i = 1; i <= array_length; ++i) {
     		string filename = "tempdata/PSFmodel_" + to_string(i) + ".npy";
     		array_of_PSFs(i - 1) = xt::load_npy<double>(filename);
     	}
     	
 	auto coordinates = xt::load_npy<double>("tempdata/coords.npy");
-    //cout << "Coordinates " << coordinates << endl;
+
 	auto center_load = xt::load_npy<double>("tempdata/center.npy");
 	xt::xarray<int> center = {(int) center_load(0,0), (int) center_load(1,1)};
     	
@@ -388,13 +379,12 @@ int main()
     //The coordinates provided are the 9 pixels surrounding the centroid
     	for (int i = 0; i < coordinates.shape()[0]; ++i) {
     		xt::xarray<int> secondary = xt::row(coordinates, i);
-            //cout << "Secondary " << secondary << endl;
-            //cout << "Coordinates " << coordinates << endl;
+
     		secondary_coordinates(0) = secondary(0) - center(0) + 2;
     		secondary_coordinates(1) = secondary(1) - center(1) + 2;
-    		//cout << "Primary coordinates" << primary_coordinates << "Secondary coordinates" << secondary_coordinates << endl;
     		xt::xarray<xt::xarray<double>> w_array = BinaryBase(primary_coordinates, secondary_coordinates);
-            //cout << "w_array" << w_array << endl;
+
+
             xt::xarray<double> w = w_array(0);
             xt::xarray<int> w1 = w_array(1);
             xt::xarray<int> w2 = w_array(2);
@@ -405,7 +395,7 @@ int main()
     		int best_secondary = 0;
     		double best_RF = 0.0;
     		double base = xt::sum(w * image_psf, xt::evaluation_strategy::immediate)(0);
-    		
+
     		double comp = 0;
     		double flux = base * 1;
     		
@@ -414,7 +404,6 @@ int main()
     			xt::xarray<int> best_PSFs =  BinaryPSF(array_of_PSFs, secondary_coordinates, image_psf, flux, sqrt_weights);
     			best_primary = best_PSFs(0);
     			best_secondary = best_PSFs(1);
-                //cout << "flux at line 405 " << flux << endl;
     			xt::xarray<double> best_PSFs_ref = BinaryRelativeFlux(array_of_PSFs, secondary_coordinates, image_psf, flux, sqrt_weights, best_primary, best_secondary);
     			best_primary = best_PSFs_ref(0);
     			best_secondary = best_PSFs_ref(1);
@@ -423,7 +412,7 @@ int main()
 			flux = BinaryFit(array_of_PSFs(best_primary), array_of_PSFs(best_secondary), secondary_coordinates, image_psf, base, w, best_RF);
     			++iteration ;
     		}
-    		//cout << "best_primary" << best_primary << "best_secondary" << best_secondary << endl;
+
     		xt::xarray<double> primary_PSF = array_of_PSFs(best_primary);
     		xt::xarray<double> secondary_PSF = array_of_PSFs(best_secondary);
 
@@ -432,7 +421,7 @@ int main()
     		double flux_primary = 2.0;
 
     		double flux_secondary = SecondaryBinaryFit(primary_PSF, secondary_PSF, secondary_coordinates, w2, image_psf, flux, best_RF);
-            //cout << flux_secondary << endl;
+
     		iteration = 0;
     		
     		//Final WHILE LOOP 
@@ -445,7 +434,7 @@ int main()
 			//CREATE rfpsf FUNCTION
 			flux_primary = RelativeFluxes(primary_PSF, primary_coordinates, secondary_PSF, secondary_coordinates, w1, image_psf, base, flux_secondary);
 			flux_secondary = RelativeFluxes(secondary_PSF, secondary_coordinates, primary_PSF, primary_coordinates, w2, image_psf, base, flux_primary);
-            //cout << flux_primary << flux_secondary << endl;
+
 			++iteration;
 		}
 		
@@ -482,7 +471,7 @@ int main()
 	
 	cout << endl;
     	xt::xarray<int> center_array = {{center(0), center(1)}, {center(0), center(1)}, {center(0), center(1)}, {center(0), center(1)}, {center(0), center(1)}, {center(0), center(1)}, {center(0), center(1)}, {center(0), center(1)}, {center(0), center(1)}};
-        //cout << "Coordiantes final " << coordinates << endl;
+
     	xt::xarray<int> secondary_array = coordinates;
     	
     	//send the "outputs" as seperate files since they are different data types and we can read them all in to python for the calculation of angles and separation - it only takes a second :)
