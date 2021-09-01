@@ -83,6 +83,7 @@ vector<vector<vector<double>>> Reshape3D(vector<double> chi_array, int shape1, i
         for(int j=0;j<shape2;j++){
             for(int k=0;k<shape3;k++){
                 int num = i*shape3*shape2+shape3*j+k;
+                cout << chi_array.size() << " " << num;
                 output[i][j][k] = chi_array[num];
             }
         }
@@ -137,14 +138,14 @@ double* Reshape2D(vector<double> chi_array, int shape1, int shape2){
 
 //This function Multiplies every value in a 2D double vector by a given double value 
 vector<vector<double>> MultiplyByScalar2D(vector<vector<double>> vec, double val){
-    vector<vector<double>> output(vec.size() , vector<double> (vec[0].size(), 0));
+    vector<vector<double>> output(vec.size());
     for (int i=0;i<vec.size();i++){
         vector<double> row(vec[0].size());
         for (int j=0;j<vec[0].size();j++){
-            row[j] =vec[i][j]*val;
+            row[j] =(vec[i][j]*val);
             //output[i][j] = vec[i][j]*val;
         }
-        output[i]=row;
+        output[i] = row;
     }
     return output;
 }
@@ -162,7 +163,7 @@ vector<double> MultiplyByScalar1D(vector<double> vec, double val){
 vector<int> MultiplyByScalar1DInt(vector<int> vec, double val){
     vector<int> output(vec.size());
     for (int i=0;i<vec.size();i++){
-        output[i] = vec[i]*val;
+        output[i] = (vec[i]*val);
     }
     return output;
 }
@@ -216,11 +217,11 @@ int SumVectorInt(vector<int> vec1){
 
 //This function Adds all of the values in 2 2D vectors of the same size to each other, outputting a 2D double vector
 vector<vector<double>> Add2DVectors(vector<vector<double>> vec1, vector<vector<double>> vec2){
-    vector<vector<double>> output(vec1.size() , vector<double> (vec1[0].size(), 0));
+    vector<vector<double>> output(vec1.size(), vector<double>(vec1[0].size(),0));
     for(int i=0;i<vec1.size();i++){
-        vector<double> row(vec1[1].size());
+        vector<double> row(vec1[0].size());
         for (int j=0;j<vec1[0].size();j++){
-            row[j] = vec1[i][j]+vec2[i][j];
+            row[j] = (vec1[i][j]+vec2[i][j]);
         }
         output[i] = row;
     }
@@ -231,20 +232,20 @@ vector<vector<double>> Add2DVectors(vector<vector<double>> vec1, vector<vector<d
 vector<double> Add1DVectors(vector<double> vec1, vector<double> vec2){
     vector<double> output(vec1.size());
     for(int i=0;i<vec1.size();i++){
-        output.push_back(vec1[i]+vec2[i]);
+        output[i] = (vec1[i]+vec2[i]);
     }
     return output;
 }
 
 //This function multiplies all of the values in 2 2D vectors of the same size to each other, outputting a 2D double vector
 vector<vector<double>> Multiply2DVectors(vector<vector<double>> vec1, vector<vector<double>> vec2){
-    vector<vector<double>> output(vec1.size() , vector<double> (vec1[0].size(), 0));
+    vector<vector<double>> output(vec1.size(), vector<double>(vec1[0].size(),0));
     for(int i=0;i<vec1.size();i++){
-        vector<double> row;
+        vector<double> row(vec1[0].size());
         for (int j=0;j<vec1[0].size();j++){
-            row.push_back(vec1[i][j]*vec2[i][j]);
+            row[j] = (vec1[i][j]*vec2[i][j]);
         }
-        output.push_back(row);
+        output[i] = row;
     }
     return output;
 }
@@ -253,7 +254,7 @@ vector<vector<double>> Multiply2DVectors(vector<vector<double>> vec1, vector<vec
 vector<double> Multiply1DVectors(vector<double> vec1, vector<double> vec2){
     vector<double> output(vec1.size());
     for(int i=0;i<vec1.size();i++){       
-        output[i]=vec1[i]*vec2[i];
+        output[i] = vec1[i]*vec2[i];
     }
     return output;
 }
@@ -262,7 +263,7 @@ vector<double> Multiply1DVectors(vector<double> vec1, vector<double> vec2){
 vector<double> Multiply1DVectorsInt(vector<int> vec1, vector<double> vec2){
     vector<double> output(vec1.size());
     for(int i=0;i<vec1.size();i++){       
-        output[i]= (double)vec1[i]*vec2[i];
+        output[i] = (double)vec1[i]*vec2[i];
     }
     return output;
 }
@@ -278,9 +279,9 @@ vector<double> Multiply1DVectorsIntInt(vector<int> vec1, vector<int> vec2){
 
 //This function subtracts all of the values in 2 2D vectors (double, double) of the same size to each other, outputting a 2D double vector
 vector<vector<double>> Subtract2DVectors(vector<vector<double>> vec1, vector<vector<double>> vec2){
-    vector<vector<double>> output(vec1.size() , vector<double> (vec1[0].size(), 0));
+    vector<vector<double>> output(vec1.size(),vector<double>(vec1[0].size(),0));
     for(int i=0;i<vec1.size();i++){
-        vector<double> row;
+        vector<double> row(vec1[0].size());
         for (int j=0;j<vec1[0].size();j++){
             row[j] = vec1[i][j]-vec2[i][j];
         }
@@ -311,67 +312,87 @@ vector<double> Subtract1DVectorsDoubInt(vector<double> vec1, vector<int> vec2){
 vector<int> BinaryPSF(vector<vector<double>> array_of_PSFs, pair<int,int> secondary_coordinates, vector<double> image_psf, double flux, vector<double> w)
 {
     //cout << secondary_coordinates << endl;
-	vector<double> scale_array(19);
-    for(int i= 0.95; i > 0; i = i-0.05){
-        scale_array.push_back(i);
+    
+	vector<double> scale_array;
+    scale_array.reserve(19);
+    for(double l= 0.95; l > 0; l = l-0.05){
+        scale_array.push_back(l);
     }
+    
 	int models_length = array_of_PSFs.size();
+    cout << "modles length " << models_length << endl;
 	int scale_length = scale_array.size();
 	int chi_array_length = models_length * models_length * scale_length;
 	
-	vector<double> chi_array;
-	chi_array.reserve(chi_array_length);
+	vector<double> chi_array(chi_array_length);
 	
 	int cx = (array_of_PSFs.size() - 1) * .5;
 	int cy = (array_of_PSFs[0].size() - 1) * .5;
-    
-        
-    
+
 	//cout << "line 303" << endl;
-	for (int i = 0; i < models_length; i++) { 
-        
-		vector<double> model_PSF = array_of_PSFs[i];
-        vector<double> PSF1(10);
-        for (int j = cy-2; j < cy+3; j++){
-            PSF1[j] =model_PSF[j];
-        }
-        for (int j = cx-2; j < cx+3; j++){
-            PSF1[j] =model_PSF[j];
-        }
+	for (int i = 0; i < scale_length; i++) { 
+        double relative_flux = scale_array[i];
+        //cout << "line 332" << endl;
+		
         //A slice of model_PSF from model_PSF[cy-2:cy+3,cx-2:cx+3]
 		//vector<double> PSF1 = (xt::view(model_PSF, xt::range(cy - 2, cy + 3 ), xt::range(cx - 2, cx + 3)));
+        //cout << "361 " << endl;
 		for (int j = 0; j < models_length; j++) {
+            //cout << "line 348" << endl;
 			vector<double> model_PSF = array_of_PSFs[j];            
             int rangeY_1 = cy - secondary_coordinates.first;
 			int rangeY_2 = cy - secondary_coordinates.first + 5;
 			int rangeX_1 = cx - secondary_coordinates.second;
 			int rangeX_2 = cx - secondary_coordinates.second + 5;
             vector<double> PSF2((rangeY_2-rangeY_1)+(rangeX_2-rangeX_1));
-            for (int j = rangeY_1; j < rangeY_2; j++){
-                PSF2[j] =model_PSF[j];
+            int n = 0;
+            for (int m = rangeY_1; m < rangeY_2; m++){
+                PSF2[n] = model_PSF[m];
+                n++;
             }
-            for (int j = rangeX_1; j < rangeX_2; j++){
-                PSF2[j] = model_PSF[j];
+            for (int m = rangeX_1; m < rangeX_2; m++){
+                PSF2[n] = model_PSF[m];
+                n++;
             }
+            
             //vector<double> a = PSF1;
             //vector<double> b = PSF2;
-			for (int k = 0; k < scale_length; ++k) {          
-				double relative_flux = scale_array[k];
+            //cout << "377 " << scale_length << endl;
+			for (int k = 0; k < models_length; k++) {    
+                vector<double> model_PSF = array_of_PSFs[k];
+                vector<double> PSF1(10);
+                n = 0;
+                for (int b = cy-2; b < cy+3; b++){
+                    PSF1[n] = model_PSF[b];
+                    n++;
+                }
+                for (int b = cx-2; b < cx+3; b++){
+                    PSF1[n] = model_PSF[b];
+                    n++;
+                }
+				
                 
                 //a = MultiplyByScalar1D(a, relative_flux);
                 //b = MultiplyByScalar1D(b, (1-relative_flux));
                 //vector<double> PSF_sum = Add1DVectors(MultiplyByScalar1D(PSF1, relative_flux), MultiplyByScalar1D(PSF2, (1-relative_flux)));
                 //vector<double> temp_array = MultiplyByScalar1D(PSF_sum,flux);
-                
+                //cout << "line 375" << endl;
                 vector<double> chi_PSF = Subtract1DVectors(image_psf,MultiplyByScalar1D(Add1DVectors(MultiplyByScalar1D(PSF1, relative_flux), MultiplyByScalar1D(PSF2, (1-relative_flux))),flux));
                 //chi_PSF = Multiply1DVectors(chi_PSF, w);
 				//vector<double> chi_PSF = w * (image_psf - temp_array);
+                //cout << "line 379" << endl;
                 double chi_value = SumSquared1D(Multiply1DVectors(chi_PSF, w));
 				//double chi_value = sum(chi_PSF * chi_PSF)(0);
-				chi_array.push_back(chi_value);	
+                //cout << "line 382 " << i*models_length*models_length+j*models_length+k << endl;
+				chi_array[i*models_length*models_length+j*models_length+k] = chi_value;	
+                //cout << "line 385 " << k << endl;
 			}
+            //cout << "line 387 " << j << endl;
 		}
-	} 
+        //cout << "line 389 " << i << endl;
+	}
+    cout << "Hi" << endl;
+    cout << "Hey there " << chi_array.size() << endl;
     vector<vector<vector<double>>> chi = Reshape3D(chi_array, 100,100,19);
 
     vector<int> best_PSFs{0,0,0};
@@ -457,8 +478,7 @@ vector<double> BinaryRelativeFlux(vector<vector<double>> array_of_PSFs, pair<int
 	int secondary_length = secondary_ref.size();
 	int scale_length = scale_array.size();
 	int chi_array_length = primary_length * secondary_length * scale_length;
-	vector<double> chi_array;
-	chi_array.reserve(chi_array_length);
+	vector<double> chi_array(chi_array_length);
 	
 	for (int i = 0; i < primary_length; ++i ) {
 		int primary = primary_ref[i];
@@ -467,11 +487,14 @@ vector<double> BinaryRelativeFlux(vector<vector<double>> array_of_PSFs, pair<int
 		int cy = (model_PSF.size() - 1) / 2;
 
         vector<double> PSF1(10);
+        int k =0 ;
         for (int j = (cy-2); j < (cy+3); j++){
-            PSF1[j] =model_PSF[j];
+            PSF1[j] = model_PSF[j];
+            k++;
         }
         for (int j = (cx-2); j < (cx+3); j++){
             PSF1[j] = model_PSF[j];
+            k++;
         }
         //PSF1.push_back(cy_range);
         //PSF1.push_back(cx_range);
@@ -486,11 +509,14 @@ vector<double> BinaryRelativeFlux(vector<vector<double>> array_of_PSFs, pair<int
 			
 
             vector<double> PSF2((rangeY_2-rangeY_1)+(rangeX_2-rangeX_1));
-            for (int j = rangeY_1; j < rangeY_2; j++){
-                PSF2[j] =model_PSF[j];
+            int k = 0;
+            for (int n = rangeY_1; n < rangeY_2; n++){
+                PSF2[k] = model_PSF[n];
+                k++;
             }
-            for (int j = rangeX_1; j < rangeX_2; j++){
-                PSF2[j]=model_PSF[j];
+            for (int n = rangeX_1; n < rangeX_2; n++){
+                PSF2[k] = model_PSF[n];
+                k++;
             }
 
 			//vector<double> PSF2 = (xt::view(model_PSF, xt::range(rangeY_1, rangeY_2), xt::range(rangeX_1, rangeX_2)));	
@@ -505,7 +531,7 @@ vector<double> BinaryRelativeFlux(vector<vector<double>> array_of_PSFs, pair<int
 				vector<double> chi_PSF = Multiply1DVectorsInt(w, temp_sub);
                 
 				double chi_value = SumSquared1D(chi_PSF);
-				chi_array.push_back(chi_value);
+				chi_array[i*primary_length*secondary_length+j*primary_length+k] = chi_value;
 			}
 		}
 	}
@@ -534,31 +560,39 @@ double BinaryFit(vector<double> model_primary, vector<double> model_secondary, p
 	int rangeX_2 = cx - secondary_coordinates.second + 5;
 	
     vector<double> PSF1(10);
+    int k=0;
     for (int j = (cy-2); j < (cy+3); j++){
         //cout << j;
-        PSF1[j] = model_primary[j];
+        PSF1[k] = model_primary[j];
+        k++;
     }
     for (int j = (cx-2); j < (cx+3); j++){
         //cout << j;
-        PSF1[j] = model_primary[j];
+        PSF1[k] = model_primary[j];
+        k++;
     }
     //PSF1.push_back(cy_range);
     //PSF1.push_back(cx_range);
     vector<double> PSF2((rangeY_2-rangeY_1)+(rangeX_2-rangeX_1));
+    k = 0;
     for (int j = (rangeY_1); j < (rangeY_2); j++){
         //cout << j;
-        PSF2[j] = model_secondary[j];
+        PSF2[k] = model_secondary[j];
+        k++;
     }
     for (int j = (rangeX_1); j < (rangeX_2); j++){
         //cout << j;
-        PSF2[j] = model_secondary[j];
+        PSF2[k] = model_secondary[j];
+        k++;
     }
 	vector<double> flux_array;
-	vector<double> chi_array;
+	vector<double> chi_array(1001);
 	
 	//change "range" to something like "Scale"
     
-	vector<double> scale_array; // = xt::arange<double>(0, 10.01, 0.01);
+	vector<double> scale_array;
+    scale_array.reserve(1001);
+    // = xt::arange<double>(0, 10.01, 0.01);
     int j=0;
     for (double i=0.0;i<10.01;i=i+0.01){
         scale_array.push_back(i);
@@ -575,33 +609,33 @@ double BinaryFit(vector<double> model_primary, vector<double> model_secondary, p
 		double scale = scale_array[i];
         flux_array.push_back(scale * base);
         
-		vector<double> scale_PSF = MultiplyByScalar1D(MultiplyByScalar1D(PSF_sum, scale), base);
+		vector<double> scale_PSF = MultiplyByScalar1D(PSF_sum, scale*base);
         //cout << scale_PSF.size() << endl;
         
         
 		vector<double> chi_PSF = Multiply1DVectorsInt(w, Subtract1DVectors(image_psf, scale_PSF));
 		double chi_value = SumSquared1D(chi_PSF);
-		chi_array.push_back(chi_value);
+		chi_array[i] = chi_value;
 	}
 		
-	auto chi_squareds = xt::adapt(chi_array, {scale_length});
-	auto fluxes = xt::adapt(flux_array, {scale_length});
+	//auto chi_squareds = xt::adapt(chi_array, {scale_length});
+	//auto fluxes = xt::adapt(flux_array, {scale_length});
     
-	double min_chi = chi_squareds(0);
-    for(int i=1;i<chi_squareds.size();i++){
-        if (chi_squareds(i) < min_chi) { min_chi = chi_squareds(i); }
+	double min_chi = chi_array[0];
+    for(int i=1;i<chi_array.size();i++){
+        if (chi_array[i] < min_chi) { min_chi = chi_array[i]; }
     }
 	int min_chi_index = 0;
-	int chi_length = chi_squareds.size();
+	int chi_length = chi_array.size();
 	//USE A VARIABLE FOR CHI_SQUAREDS.SHAPE, CHECK IN THE OTHER FILES TOO
 	for (int i = 0; i < chi_length; ++i) {
-		if (chi_squareds(i) == min_chi) {
+		if (chi_array[i] == min_chi) {
 			min_chi_index = i;
 			break;
 		}
 	}	
 	
-	double best_flux = fluxes(min_chi_index);
+	double best_flux = flux_array[min_chi_index];
 	
 	return best_flux;	 
 }
@@ -617,34 +651,39 @@ double SecondaryBinaryFit(vector<double> primary, vector<double> secondary, pair
 	int rangeX_2 = cx - secondary_coordinates.second + 5;
 	vector<double> PSF1(10);
     vector<double> PSF2((rangeY_2-rangeY_1)+(rangeX_1-rangeX_1));
+    int k=0;
     for (int j = cy-2; j < cy+3; j++){
-        PSF1[j] = primary[j];
+        PSF1[k] = primary[j];
+        k++;
     }
     for (int j = cx-2; j < cx+3; j++){
-        PSF1[j] = primary[j];
+        PSF1[k] = primary[j];
+        k++;
     }
     //PSF1.push_back(cy_range);
     //PSF1.push_back(cx_range);
-    
+    k = 0;
     for (int j = rangeY_1; j < rangeY_2; j++){
-        PSF2[j] = secondary[j];
+        PSF2[k] = secondary[j];
+        k++;
     }
     for (int j = rangeX_1; j < rangeX_2; j++){
-        PSF2[j] = secondary[j];
+        PSF2[k] = secondary[j];
+        k++;
     }
     
     //cout << PSF1.size() << endl;
     //cout << PSF2.size() << endl;
-	vector<double> scale_array;
+	vector<double> scale_array(100001);
     //int j = 0;
-    for(double i=0;i<10.0001; i=i+0.0001){
-        scale_array.push_back(i);
+    for(double i=0;i<100001; i++){
+        scale_array.push_back(i*0.0001);
     }
     
     
 	int scale_length = scale_array.size();
 	vector<double> flux_array;
-	vector<double> chi_array;
+	vector<double> chi_array(scale_length);
 	flux_array.reserve(scale_length);
 	chi_array.reserve(scale_length);
     
@@ -660,26 +699,26 @@ double SecondaryBinaryFit(vector<double> primary, vector<double> secondary, pair
 		flux_array.push_back(flux* scale);
 		vector<double> chi_PSF = Multiply1DVectorsInt(w2,Subtract1DVectors(relative_PSF2,scale_PSF2));
 		double chi_value = SumSquared1D(chi_PSF);
-		chi_array.push_back(chi_value);
+		chi_array[i] = chi_value;
 	}
 
-	auto chi_squareds = xt::adapt(chi_array, {scale_length});
-	auto fluxes = xt::adapt(flux_array, {scale_length});
-    double min_chi = chi_squareds(0);
-    for(int i=1;i<chi_squareds.size();i++){
-        if (chi_squareds(i) < min_chi) { min_chi = chi_squareds(i); }
+	//auto chi_squareds = xt::adapt(chi_array, {scale_length});
+	//auto fluxes = xt::adapt(flux_array, {scale_length});
+    double min_chi = chi_array[0];
+    for(int i=1;i<chi_array.size();i++){
+        if (chi_array[i] < min_chi) { min_chi = chi_array[i]; }
     }
 	//double min_chi = xt::amin(chi_squareds)(0);
 	int min_chi_index = 0;
-	int chi_length = chi_squareds.size();
+	int chi_length = chi_array.size();
 	for (int i = 0; i < chi_length ; ++i) {
-		if (chi_squareds(i) == min_chi) {
+		if (chi_array[i] == min_chi) {
 			min_chi_index = i;
 			break;
 		}
 	}	                                                    
 	
-	double best_flux = fluxes(min_chi_index);
+	double best_flux = flux_array[min_chi_index];
 	
 	return best_flux;
 }
@@ -702,23 +741,27 @@ double RelativeFluxes(vector<double> PSF_1, pair<int,int> coordinates_1, vector<
 	int S_rangeX_1 = cx - coordinates_2.second;
 	int S_rangeX_2 = cx - coordinates_2.second + 5;
 
-    vector<int> PSF1;
-    vector<double> cy_range;
-    vector<double> cx_range;
+    vector<int> PSF1((P_rangeY_2-P_rangeY_1)+(P_rangeX_2-P_rangeX_1));
+    int k=0;
     for (int j = P_rangeY_1; j < P_rangeY_2; j++){
-        PSF1.push_back(PSF_1[j]);
+        PSF1[k] = PSF_1[j];
+        k++;
     }
     for (int j = P_rangeX_1; j < P_rangeX_2; j++){
-        PSF1.push_back(PSF_1[j]);
+        PSF1[k] = PSF_1[j];
+        k++;
     }
     //PSF1.push_back(cy_range);
     //PSF1.push_back(cx_range);
-    vector<int> PSF2;
+    vector<int> PSF2((S_rangeY_2-S_rangeY_1)+(S_rangeX_2-S_rangeX_1));
+    k=0;
     for (int j = S_rangeY_1; j < S_rangeY_2; j++){
-        PSF2.push_back(PSF_2[j]);
+        PSF2[k] = PSF_2[j];
+        k++;
     }
     for (int j = S_rangeX_1; j < S_rangeX_2; j++){
-        PSF2.push_back(PSF_2[j]);
+        PSF2[k] = PSF_2[j];
+        k++;
     }
     //PSF2.push_back(cy_range);
     //PSF2.push_back(cx_range);
@@ -727,12 +770,12 @@ double RelativeFluxes(vector<double> PSF_1, pair<int,int> coordinates_1, vector<
 	
 	vector<double> scale_array(100001);// = xt::arange<double>(0, 10.0001, .0001);
     int j = 0;
-    for(int i =0;i<10.001;i++){
-        scale_array[j]= i;
+    for(double i=0;i<100001; i++){
+        scale_array.push_back(i*0.0001);
     }
 	int scale_length = scale_array.size();
 	vector<double> flux_array;
-	vector<double> chi_array;
+	vector<double> chi_array(scale_length);
 	flux_array.reserve(scale_length);
 	chi_array.reserve(scale_length);
 	
@@ -743,26 +786,26 @@ double RelativeFluxes(vector<double> PSF_1, pair<int,int> coordinates_1, vector<
 		flux_array.push_back(scale * base);
 		vector<double> chi_PSF = Multiply1DVectorsInt(w, Subtract1DVectors(rPSF,scale_PSF));
 		double chi_value = SumSquared1D(chi_PSF);
-		chi_array.push_back(chi_value);
+		chi_array[i] = chi_value;
 	}
 	
-	auto chi_squareds = xt::adapt(chi_array, {scale_length});
-	auto fluxes = xt::adapt(flux_array, {scale_length});
+	//auto chi_squareds = xt::adapt(chi_array, {scale_length});
+	//auto fluxes = xt::adapt(flux_array, {scale_length});
 	//double min_chi = xt::amin(chi_squareds)(0);
-    double min_chi = chi_squareds[0];
-    for(int i=1;i<chi_squareds.size();i++){
-        if (chi_squareds[i] < min_chi) { min_chi = chi_squareds[i]; }
+    double min_chi = chi_array[0];
+    for(int i=1;i<chi_array.size();i++){
+        if (chi_array[i] < min_chi) { min_chi = chi_array[i]; }
     }
 	int min_chi_index = 0;
-	int chi_length = chi_squareds.size();
+	int chi_length = chi_array.size();
 	for (int i = 0; i < chi_length ; ++i) {
-		if (chi_squareds[i] == min_chi) {
+		if (chi_array[i] == min_chi) {
 			min_chi_index = i;
 			break;
 		}
 	}	
 	
-	double best_flux = fluxes(min_chi_index);
+	double best_flux = flux_array[min_chi_index];
 	
 	return best_flux;
 }
@@ -829,6 +872,7 @@ vector<double> Read_FileDouble1D(string filename){
 }
 
 
+
 //MAIN 
 int main() {    
     //read in the image and model data, and the parameters we set earlier
@@ -843,6 +887,7 @@ int main() {
     		string filename = "tempdata/PSFmodel_" + to_string(i) + ".txt";
     		array_of_PSFs[i - 1] = Read_FileDouble1D(filename);
     	}
+    
     	
     string seccoords = "tempdata/sec_coords.txt";
     string primcoords = "tempdata/prim_coords.txt";
@@ -864,7 +909,7 @@ int main() {
         vector<pair<int,int>> temp_coords{make_pair(1,1),make_pair(1,2),make_pair(1,3),make_pair(2,1),make_pair(2,2),make_pair(2,3),make_pair(3,1),make_pair(3,2),make_pair(3,3)};
     
         //This for loop tests every pixel of the 9 surrounding the centroid
-    	for (int i = 0; i < coordinates.size(); i++) {
+    for (int i = 0; i < coordinates.size(); i++) {
 
     		pair<int,int> secondary = coordinates[i];
 
@@ -959,17 +1004,17 @@ int main() {
         vector<double> PSF1;
         vector<double> PSF2;
         
-        for (int i = P_rangeY_1; i < P_rangeY_2; ++i) {
-            PSF1.push_back(primary_PSF[i]);
+        for (int j = P_rangeY_1; j < P_rangeY_2; j++) {
+            PSF1.push_back(primary_PSF[j]);
         }
-        for (int i = S_rangeY_1; i < S_rangeY_2; ++i) {
-            PSF2.push_back(primary_PSF[i]);
+        for (int j = S_rangeY_1; j < S_rangeY_2; j++) {
+            PSF2.push_back(primary_PSF[j]);
         }
 		vector<double> PSF_sum = Add1DVectors(MultiplyByScalar1D(PSF1,flux_primary), MultiplyByScalar1D(PSF2,flux_secondary));
             
 		vector<double> pre_residual = Subtract1DVectors(image_psf,PSF_sum);
-        for(int i=0;i< pre_residual.size();i++){
-            if(pre_residual[i] < 0) { pre_residual[i] = pre_residual[i]*-1; }
+        for(int j=0;j< pre_residual.size();j++){
+            if(pre_residual[j] < 0) { pre_residual[j] = pre_residual[j]*-1; }
         }
         vector<double> temp_vec = Multiply1DVectorsInt(w,pre_residual);
 		double residual = SumVector(temp_vec);
@@ -983,7 +1028,7 @@ int main() {
 		best_secondary_array[i] = best_secondary;
 		flux_secondary_array[i] = flux_secondary;
 		flux_sum_array[i] = flux_primary + flux_secondary;
-        }
+    }
             
     
 	
